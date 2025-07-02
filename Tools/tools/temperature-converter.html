@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Converter - Multi-Tools Hub</title>
+    <meta name="description" content="Convert between Celsius, Fahrenheit, and Kelvin temperature scales.">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <!-- Header will be loaded dynamically -->
+    <div id="header-placeholder"></div>
+
+    <!-- Main Content -->
+    <main class="container-fluid py-4">
+        <div class="tool-container">
+            <!-- Tool Header -->
+            <div class="tool-header">
+                <h1><i class="fas fa-thermometer-half me-3"></i>Temperature Converter</h1>
+                <p>Convert between Celsius, Fahrenheit, and Kelvin temperature scales instantly.</p>
+            </div>
+
+            <!-- Tool Content -->
+            <div class="tool-content">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-exchange-alt me-2"></i>Temperature Conversion</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Celsius (°C)</label>
+                                        <input type="number" class="form-control" id="celsius" placeholder="Enter temperature">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Fahrenheit (°F)</label>
+                                        <input type="number" class="form-control" id="fahrenheit" placeholder="Enter temperature">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Kelvin (K)</label>
+                                        <input type="number" class="form-control" id="kelvin" placeholder="Enter temperature">
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button class="btn btn-primary" onclick="clearAll()">
+                                        <i class="fas fa-eraser me-2"></i>Clear All
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Temperature Scales</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Celsius:</strong> Water freezes at 0°C, boils at 100°C</p>
+                                <p><strong>Fahrenheit:</strong> Water freezes at 32°F, boils at 212°F</p>
+                                <p><strong>Kelvin:</strong> Absolute zero at 0K, water freezes at 273.15K</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer will be loaded dynamically -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/tools-data.js"></script>
+    
+    <!-- Tool Specific JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add event listeners for real-time conversion
+            document.getElementById('celsius').addEventListener('input', convertFromCelsius);
+            document.getElementById('fahrenheit').addEventListener('input', convertFromFahrenheit);
+            document.getElementById('kelvin').addEventListener('input', convertFromKelvin);
+        });
+
+        function convertFromCelsius() {
+            const celsius = parseFloat(document.getElementById('celsius').value);
+            if (!isNaN(celsius)) {
+                const fahrenheit = (celsius * 9/5) + 32;
+                const kelvin = celsius + 273.15;
+                document.getElementById('fahrenheit').value = fahrenheit.toFixed(2);
+                document.getElementById('kelvin').value = kelvin.toFixed(2);
+            }
+        }
+
+        function convertFromFahrenheit() {
+            const fahrenheit = parseFloat(document.getElementById('fahrenheit').value);
+            if (!isNaN(fahrenheit)) {
+                const celsius = (fahrenheit - 32) * 5/9;
+                const kelvin = celsius + 273.15;
+                document.getElementById('celsius').value = celsius.toFixed(2);
+                document.getElementById('kelvin').value = kelvin.toFixed(2);
+            }
+        }
+
+        function convertFromKelvin() {
+            const kelvin = parseFloat(document.getElementById('kelvin').value);
+            if (!isNaN(kelvin)) {
+                const celsius = kelvin - 273.15;
+                const fahrenheit = (celsius * 9/5) + 32;
+                document.getElementById('celsius').value = celsius.toFixed(2);
+                document.getElementById('fahrenheit').value = fahrenheit.toFixed(2);
+            }
+        }
+
+        function clearAll() {
+            document.getElementById('celsius').value = '';
+            document.getElementById('fahrenheit').value = '';
+            document.getElementById('kelvin').value = '';
+        }
+    </script>
+</body>
+</html> 

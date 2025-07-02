@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volume Converter - Multi-Tools Hub</title>
+    <meta name="description" content="Convert between different volume units.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main class="container-fluid py-4">
+        <div class="tool-container">
+            <div class="tool-header">
+                <h1><i class="fas fa-flask me-3"></i>Volume Converter</h1>
+                <p>Convert between liters, milliliters, cubic meters, gallons, and pints.</p>
+            </div>
+            <div class="tool-content">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-exchange-alt me-2"></i>Convert Volume</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Value</label>
+                                        <input type="number" class="form-control" id="volumeValue" placeholder="Enter value">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">From Unit</label>
+                                        <select class="form-select" id="fromVolumeUnit">
+                                            <option value="liter">Liter (L)</option>
+                                            <option value="milliliter">Milliliter (mL)</option>
+                                            <option value="cubic_meter">Cubic Meter (m³)</option>
+                                            <option value="gallon">Gallon (US)</option>
+                                            <option value="pint">Pint (US)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">To Unit</label>
+                                    <select class="form-select" id="toVolumeUnit">
+                                        <option value="liter">Liter (L)</option>
+                                        <option value="milliliter">Milliliter (mL)</option>
+                                        <option value="cubic_meter">Cubic Meter (m³)</option>
+                                        <option value="gallon">Gallon (US)</option>
+                                        <option value="pint">Pint (US)</option>
+                                    </select>
+                                </div>
+                                <div class="text-center mb-3">
+                                    <button class="btn btn-primary" onclick="convertVolume()"><i class="fas fa-exchange-alt me-2"></i>Convert</button>
+                                    <button class="btn btn-outline-danger ms-2" onclick="clearVolume()"><i class="fas fa-trash me-2"></i>Clear</button>
+                                </div>
+                                <div id="volumeResult" class="text-center"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>How to Use</h5>
+                            </div>
+                            <div class="card-body">
+                                <ol>
+                                    <li>Enter value and select units</li>
+                                    <li>Click Convert</li>
+                                    <li>View result</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/tools-data.js"></script>
+    <script>
+        const volumeFactors = {
+            liter: 1,
+            milliliter: 0.001,
+            cubic_meter: 1000,
+            gallon: 3.78541,
+            pint: 0.473176
+        };
+        function convertVolume() {
+            const value = parseFloat(document.getElementById('volumeValue').value);
+            const from = document.getElementById('fromVolumeUnit').value;
+            const to = document.getElementById('toVolumeUnit').value;
+            if (!value || !from || !to) {
+                showToast('Please enter all fields!', 'error');
+                return;
+            }
+            const liters = value * volumeFactors[from];
+            const result = liters / volumeFactors[to];
+            document.getElementById('volumeResult').innerHTML = `<div class='alert alert-info'><b>Result:</b> ${result} ${to.replace('_', ' ')}</div>`;
+        }
+        function clearVolume() {
+            document.getElementById('volumeValue').value = '';
+            document.getElementById('volumeResult').innerHTML = '';
+        }
+    </script>
+</body>
+</html> 

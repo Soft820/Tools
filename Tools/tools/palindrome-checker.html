@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palindrome Checker - Multi-Tools Hub</title>
+    <meta name="description" content="Check if a string is a palindrome.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main class="container-fluid py-4">
+        <div class="tool-container">
+            <div class="tool-header">
+                <h1><i class="fas fa-retweet me-3"></i>Palindrome Checker</h1>
+                <p>Check if your text is a palindrome.</p>
+            </div>
+            <div class="tool-content">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-search me-2"></i>Check Palindrome</h5>
+                            </div>
+                            <div class="card-body">
+                                <label class="form-label">Input Text</label>
+                                <input type="text" class="form-control mb-3" id="palindromeInput" placeholder="Enter text...">
+                                <div class="text-center mb-3">
+                                    <button class="btn btn-primary" onclick="checkPalindrome()"><i class="fas fa-search me-2"></i>Check</button>
+                                    <button class="btn btn-outline-danger ms-2" onclick="clearAll()"><i class="fas fa-trash me-2"></i>Clear</button>
+                                </div>
+                                <div id="palindromeResult" class="text-center" style="display: none;">
+                                    <div class="card bg-light">
+                                        <div class="card-body">
+                                            <h3 id="palindromeStatus">-</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>What is a Palindrome?</h5>
+                            </div>
+                            <div class="card-body">
+                                <p>A palindrome is a word, phrase, or sequence that reads the same backward as forward (e.g., "madam", "racecar").</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/tools-data.js"></script>
+    <script>
+        function checkPalindrome() {
+            const input = document.getElementById('palindromeInput').value;
+            const clean = input.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+            const reversed = clean.split('').reverse().join('');
+            const isPalindrome = clean && clean === reversed;
+            document.getElementById('palindromeStatus').textContent = isPalindrome ? 'Palindrome!' : 'Not a palindrome.';
+            document.getElementById('palindromeResult').style.display = 'block';
+        }
+        function clearAll() {
+            document.getElementById('palindromeInput').value = '';
+            document.getElementById('palindromeResult').style.display = 'none';
+        }
+    </script>
+</body>
+</html> 

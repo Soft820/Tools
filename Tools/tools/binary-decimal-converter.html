@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary to Decimal Converter - Multi-Tools Hub</title>
+    <meta name="description" content="Convert between binary, decimal, hex, and octal.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main class="container-fluid py-4">
+        <div class="tool-container">
+            <div class="tool-header">
+                <h1><i class="fas fa-exchange-alt me-3"></i>Binary to Decimal Converter</h1>
+                <p>Convert between binary, decimal, hexadecimal, and octal numbers.</p>
+            </div>
+            <div class="tool-content">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-exchange-alt me-2"></i>Convert Numbers</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row mb-3">
+                                    <div class="col-md-3">
+                                        <label class="form-label">Binary</label>
+                                        <input type="text" class="form-control" id="binaryInput" placeholder="e.g. 1010" oninput="fromBinary()">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Decimal</label>
+                                        <input type="text" class="form-control" id="decimalInput" placeholder="e.g. 10" oninput="fromDecimal()">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Hex</label>
+                                        <input type="text" class="form-control" id="hexInput" placeholder="e.g. A" oninput="fromHex()">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Octal</label>
+                                        <input type="text" class="form-control" id="octalInput" placeholder="e.g. 12" oninput="fromOctal()">
+                                    </div>
+                                </div>
+                                <div class="text-center mb-3">
+                                    <button class="btn btn-outline-danger" onclick="clearAllBases()"><i class="fas fa-trash me-2"></i>Clear</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>How to Use</h5>
+                            </div>
+                            <div class="card-body">
+                                <ol>
+                                    <li>Enter a value in any field</li>
+                                    <li>Other fields auto-convert</li>
+                                    <li>Clear to reset</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/tools-data.js"></script>
+    <script>
+        function fromBinary() {
+            const bin = document.getElementById('binaryInput').value;
+            if (/^[01]+$/.test(bin)) {
+                const dec = parseInt(bin, 2);
+                document.getElementById('decimalInput').value = dec;
+                document.getElementById('hexInput').value = dec.toString(16).toUpperCase();
+                document.getElementById('octalInput').value = dec.toString(8);
+            }
+        }
+        function fromDecimal() {
+            const dec = document.getElementById('decimalInput').value;
+            if (/^\d+$/.test(dec)) {
+                const n = parseInt(dec, 10);
+                document.getElementById('binaryInput').value = n.toString(2);
+                document.getElementById('hexInput').value = n.toString(16).toUpperCase();
+                document.getElementById('octalInput').value = n.toString(8);
+            }
+        }
+        function fromHex() {
+            const hex = document.getElementById('hexInput').value;
+            if (/^[0-9A-Fa-f]+$/.test(hex)) {
+                const n = parseInt(hex, 16);
+                document.getElementById('binaryInput').value = n.toString(2);
+                document.getElementById('decimalInput').value = n;
+                document.getElementById('octalInput').value = n.toString(8);
+            }
+        }
+        function fromOctal() {
+            const oct = document.getElementById('octalInput').value;
+            if (/^[0-7]+$/.test(oct)) {
+                const n = parseInt(oct, 8);
+                document.getElementById('binaryInput').value = n.toString(2);
+                document.getElementById('decimalInput').value = n;
+                document.getElementById('hexInput').value = n.toString(16).toUpperCase();
+            }
+        }
+        function clearAllBases() {
+            document.getElementById('binaryInput').value = '';
+            document.getElementById('decimalInput').value = '';
+            document.getElementById('hexInput').value = '';
+            document.getElementById('octalInput').value = '';
+        }
+    </script>
+</body>
+</html> 

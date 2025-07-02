@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Cropper - Multi-Tools Hub</title>
+    <meta name="description" content="Crop images online.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        #cropCanvas { border: 1px solid #ccc; cursor: crosshair; }
+    </style>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main class="container-fluid py-4">
+        <div class="tool-container">
+            <div class="tool-header">
+                <h1><i class="fas fa-crop me-3"></i>Image Cropper</h1>
+                <p>Crop your images to custom dimensions.</p>
+            </div>
+            <div class="tool-content">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-image me-2"></i>Crop Image</h5>
+                            </div>
+                            <div class="card-body">
+                                <input type="file" class="form-control mb-3" id="cropInput" accept="image/*">
+                                <canvas id="cropCanvas" width="400" height="300" style="display:none;"></canvas>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">X</label>
+                                        <input type="number" class="form-control" id="cropX" value="0">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Y</label>
+                                        <input type="number" class="form-control" id="cropY" value="0">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Width</label>
+                                        <input type="number" class="form-control" id="cropW" value="100">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Height</label>
+                                        <input type="number" class="form-control" id="cropH" value="100">
+                                    </div>
+                                </div>
+                                <div class="text-center mb-3">
+                                    <button class="btn btn-primary" onclick="cropImage()"><i class="fas fa-crop me-2"></i>Crop</button>
+                                </div>
+                                <div id="cropResultSection" style="display: none;">
+                                    <label class="form-label">Cropped Image</label>
+                                    <img id="cropOutputImage" class="img-fluid mb-2" style="max-width: 300px;">
+                                    <div>
+                                        <a id="cropDownloadLink" class="btn btn-success" download="cropped.png"><i class="fas fa-download me-2"></i>Download</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>How to Use</h5>
+                            </div>
+                            <div class="card-body">
+                                <ol>
+                                    <li>Select an image file</li>
+                                    <li>Set X, Y, Width, Height</li>
+                                    <li>Click Crop</li>
+                                    <li>Download the cropped image</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/tools-data.js"></script>
+    <script>
+        let cropImg = null;
+        document.getElementById('cropInput').addEventListener('change', function() {
+            const file = this.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                cropImg = new Image();
+                cropImg.onload = function() {
+                    const canvas = document.getElementById('cropCanvas');
+                    canvas.width = cropImg.width;
+                    canvas.height = cropImg.height;
+                    canvas.style.display = 'block';
+                    const ctx = canvas.getContext('2d');
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(cropImg, 0, 0);
+                };
+                cropImg.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+        function cropImage() {
+            if (!cropImg) {
+                showToast('Please select an image!', 'error');
+                return;
+            }
+            const x = parseInt(document.getElementById('cropX').value);
+            const y = parseInt(document.getElementById('cropY').value);
+            const w = parseInt(document.getElementById('cropW').value);
+            const h = parseInt(document.getElementById('cropH').value);
+            const canvas = document.createElement('canvas');
+            canvas.width = w;
+            canvas.height = h;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(cropImg, x, y, w, h, 0, 0, w, h);
+            const croppedData = canvas.toDataURL('image/png');
+            document.getElementById('cropOutputImage').src = croppedData;
+            document.getElementById('cropDownloadLink').href = croppedData;
+            document.getElementById('cropResultSection').style.display = 'block';
+        }
+    </script>
+</body>
+</html> 

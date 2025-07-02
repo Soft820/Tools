@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random String Generator - Multi-Tools Hub</title>
+    <meta name="description" content="Generate random strings for various purposes.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main class="container-fluid py-4">
+        <div class="tool-container">
+            <div class="tool-header">
+                <h1><i class="fas fa-random me-3"></i>Random String Generator</h1>
+                <p>Generate random strings for various purposes.</p>
+            </div>
+            <div class="tool-content">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-random me-2"></i>Generate Random String</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Length</label>
+                                    <input type="number" class="form-control" id="stringLength" value="12" min="1" max="100">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Character Set</label>
+                                    <select class="form-select" id="charSet">
+                                        <option value="alphanumeric">Alphanumeric (A-Z, a-z, 0-9)</option>
+                                        <option value="alpha">Alphabetic (A-Z, a-z)</option>
+                                        <option value="numeric">Numeric (0-9)</option>
+                                        <option value="hex">Hexadecimal (0-9, A-F)</option>
+                                        <option value="custom">Custom</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3" id="customSetDiv" style="display:none;">
+                                    <label class="form-label">Custom Characters</label>
+                                    <input type="text" class="form-control" id="customChars" placeholder="e.g. ABC123!@#">
+                                </div>
+                                <div class="text-center mb-3">
+                                    <button class="btn btn-primary" onclick="generateString()"><i class="fas fa-random me-2"></i>Generate</button>
+                                    <button class="btn btn-outline-danger ms-2" onclick="clearString()"><i class="fas fa-trash me-2"></i>Clear</button>
+                                </div>
+                                <div id="stringResult" class="alert alert-info text-break" style="display:none;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>How to Use</h5>
+                            </div>
+                            <div class="card-body">
+                                <ol>
+                                    <li>Choose length and character set</li>
+                                    <li>Click Generate</li>
+                                    <li>Copy the random string</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/tools-data.js"></script>
+    <script>
+        document.getElementById('charSet').addEventListener('change', function() {
+            document.getElementById('customSetDiv').style.display = this.value === 'custom' ? 'block' : 'none';
+        });
+        function generateString() {
+            const length = parseInt(document.getElementById('stringLength').value);
+            let chars = '';
+            switch(document.getElementById('charSet').value) {
+                case 'alphanumeric': chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'; break;
+                case 'alpha': chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'; break;
+                case 'numeric': chars = '0123456789'; break;
+                case 'hex': chars = '0123456789ABCDEF'; break;
+                case 'custom': chars = document.getElementById('customChars').value; break;
+            }
+            if (!chars) {
+                showToast('Please provide a character set!', 'error');
+                return;
+            }
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            document.getElementById('stringResult').style.display = 'block';
+            document.getElementById('stringResult').textContent = result;
+        }
+        function clearString() {
+            document.getElementById('stringLength').value = 12;
+            document.getElementById('charSet').value = 'alphanumeric';
+            document.getElementById('customSetDiv').style.display = 'none';
+            document.getElementById('customChars').value = '';
+            document.getElementById('stringResult').style.display = 'none';
+        }
+    </script>
+</body>
+</html> 

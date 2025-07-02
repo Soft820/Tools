@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hashtag Generator - Multi-Tools Hub</title>
+    <meta name="description" content="Generate trending hashtags for social media.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main class="container py-4">
+        <div class="tool-header mb-4">
+            <h1><i class="fas fa-hashtag me-3"></i>Hashtag Generator</h1>
+            <p>Generate random or trending hashtags for your social media posts.</p>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label">Topic/Keyword (optional)</label>
+                    <input type="text" class="form-control" id="hashtagTopic" placeholder="e.g. travel, food, fitness">
+                </div>
+                <div class="text-center mb-3">
+                    <button class="btn btn-primary" onclick="generateHashtags()">Generate Hashtags</button>
+                    <button class="btn btn-outline-danger ms-2" onclick="clearHashtags()">Clear</button>
+                </div>
+                <div id="hashtagResult" class="alert alert-info text-break" style="display:none;"></div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function generateHashtags() {
+            const topic = document.getElementById('hashtagTopic').value.trim().toLowerCase();
+            let hashtags = [];
+            if (topic) {
+                hashtags = [`#${topic}`, `#${topic}life`, `#${topic}love`, `#${topic}daily`, `#${topic}vibes`];
+            } else {
+                hashtags = ['#love', '#instagood', '#photooftheday', '#fashion', '#beautiful', '#happy', '#cute', '#tbt', '#like4like', '#followme'];
+                hashtags = hashtags.sort(() => 0.5 - Math.random()).slice(0, 5);
+            }
+            document.getElementById('hashtagResult').style.display = 'block';
+            document.getElementById('hashtagResult').textContent = hashtags.join(' ');
+        }
+        function clearHashtags() {
+            document.getElementById('hashtagTopic').value = '';
+            document.getElementById('hashtagResult').style.display = 'none';
+        }
+    </script>
+</body>
+</html> 

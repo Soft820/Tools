@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIF Maker - Multi-Tools Hub</title>
+    <meta name="description" content="Create GIFs from images online.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main class="container-fluid py-4">
+        <div class="tool-container">
+            <div class="tool-header">
+                <h1><i class="fas fa-film me-3"></i>GIF Maker</h1>
+                <p>Create GIFs from your images instantly.</p>
+            </div>
+            <div class="tool-content">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-images me-2"></i>Upload Images</h5>
+                            </div>
+                            <div class="card-body">
+                                <input type="file" class="form-control mb-3" id="gifInput" accept="image/*" multiple>
+                                <div class="mb-3">
+                                    <label class="form-label">Frame Duration (ms)</label>
+                                    <input type="number" class="form-control" id="gifDuration" value="500">
+                                </div>
+                                <div class="text-center mb-3">
+                                    <button class="btn btn-primary" onclick="createGIF()"><i class="fas fa-film me-2"></i>Create GIF</button>
+                                </div>
+                                <div id="gifResultSection" style="display: none;">
+                                    <label class="form-label">GIF Preview</label>
+                                    <img id="gifOutputImage" class="img-fluid mb-2" style="max-width: 300px;">
+                                    <div>
+                                        <a id="gifDownloadLink" class="btn btn-success" download="created.gif"><i class="fas fa-download me-2"></i>Download GIF</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>How to Use</h5>
+                            </div>
+                            <div class="card-body">
+                                <ol>
+                                    <li>Select multiple image files</li>
+                                    <li>Set frame duration</li>
+                                    <li>Click Create GIF</li>
+                                    <li>Download the GIF</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gifshot@0.3.2/build/gifshot.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/tools-data.js"></script>
+    <script>
+        function createGIF() {
+            const input = document.getElementById('gifInput');
+            const duration = parseInt(document.getElementById('gifDuration').value) || 500;
+            if (!input.files.length) {
+                showToast('Please select images!', 'error');
+                return;
+            }
+            const files = Array.from(input.files);
+            const readers = files.map(file => {
+                return new Promise(resolve => {
+                    const reader = new FileReader();
+                    reader.onload = e => resolve(e.target.result);
+                    reader.readAsDataURL(file);
+                });
+            });
+            Promise.all(readers).then(images => {
+                gifshot.createGIF({
+                    images,
+                    interval: duration / 1000,
+                    gifWidth: 300,
+                    gifHeight: 300
+                }, function(obj) {
+                    if (!obj.error) {
+                        document.getElementById('gifOutputImage').src = obj.image;
+                        document.getElementById('gifDownloadLink').href = obj.image;
+                        document.getElementById('gifResultSection').style.display = 'block';
+                    } else {
+                        showToast('GIF creation failed!', 'error');
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html> 

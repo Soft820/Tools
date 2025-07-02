@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter Video Downloader - Multi-Tools Hub</title>
+    <meta name="description" content="Download videos from Twitter.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main class="container py-4">
+        <div class="tool-header mb-4">
+            <h1><i class="fab fa-twitter me-3"></i>Twitter Video Downloader</h1>
+            <p>Download Twitter videos by entering the tweet URL (demo only).</p>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <input type="text" class="form-control mb-3" id="twUrl" placeholder="Enter Twitter video URL">
+                <div class="text-center mb-3">
+                    <button class="btn btn-primary" onclick="getTWVideo()">Get Video</button>
+                    <button class="btn btn-outline-danger ms-2" onclick="clearTW()">Clear</button>
+                </div>
+                <div id="twResult" class="text-center" style="display:none;"></div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function getTWVideo() {
+            const url = document.getElementById('twUrl').value;
+            if (!url) {
+                document.getElementById('twResult').style.display = 'block';
+                document.getElementById('twResult').innerHTML = '<div class="alert alert-danger">Please enter a URL!</div>';
+                return;
+            }
+            // Demo: Always show placeholder
+            const vid = 'https://www.w3schools.com/html/mov_bbb.mp4';
+            document.getElementById('twResult').style.display = 'block';
+            document.getElementById('twResult').innerHTML = `<video src='${vid}' controls class='img-fluid mb-2'></video><br/><a href='${vid}' download class='btn btn-success'>Download Video</a>`;
+        }
+        function clearTW() {
+            document.getElementById('twUrl').value = '';
+            document.getElementById('twResult').style.display = 'none';
+        }
+    </script>
+</body>
+</html> 

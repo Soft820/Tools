@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Counter - Multi-Tools Hub</title>
+    <meta name="description" content="Free online word counter tool. Count words, characters, sentences, and paragraphs in your text.">
+    <meta name="keywords" content="word counter, character counter, text analyzer, word count tool">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <!-- Header will be loaded dynamically -->
+    <div id="header-placeholder"></div>
+
+    <!-- Main Content -->
+    <main class="container-fluid py-4">
+        <div class="tool-container">
+            <!-- Tool Header -->
+            <div class="tool-header">
+                <h1><i class="fas fa-calculator me-3"></i>Word Counter</h1>
+                <p>Count words, characters, sentences, and paragraphs in your text. Perfect for essays, articles, and content writing.</p>
+            </div>
+
+            <!-- Ad Section - Top -->
+            <div class="ad-section text-center py-3">
+                <div class="ad-placeholder">
+                    <p class="text-muted mb-0">Advertisement Space</p>
+                </div>
+            </div>
+
+            <!-- Tool Content -->
+            <div class="tool-content">
+                <div class="row">
+                    <!-- Input Section -->
+                    <div class="col-lg-8">
+                        <div class="mb-4">
+                            <label for="textInput" class="form-label fw-bold">
+                                <i class="fas fa-edit me-2"></i>Enter Your Text
+                            </label>
+                            <textarea id="textInput" class="form-control" rows="12" 
+                                      placeholder="Paste or type your text here to analyze..."></textarea>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="d-flex gap-2 mb-4">
+                            <button class="btn btn-primary" onclick="clearText()">
+                                <i class="fas fa-trash me-2"></i>Clear Text
+                            </button>
+                            <button class="btn btn-outline-primary" onclick="copyText()">
+                                <i class="fas fa-copy me-2"></i>Copy Text
+                            </button>
+                            <button class="btn btn-outline-success" onclick="downloadText()">
+                                <i class="fas fa-download me-2"></i>Download
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Results Section -->
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Text Statistics</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row text-center">
+                                    <div class="col-6 mb-3">
+                                        <div class="stat-item">
+                                            <div class="stat-number" id="wordCount">0</div>
+                                            <div class="stat-label">Words</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        <div class="stat-item">
+                                            <div class="stat-number" id="charCount">0</div>
+                                            <div class="stat-label">Characters</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        <div class="stat-item">
+                                            <div class="stat-number" id="charNoSpaceCount">0</div>
+                                            <div class="stat-label">Characters (no spaces)</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        <div class="stat-item">
+                                            <div class="stat-number" id="sentenceCount">0</div>
+                                            <div class="stat-label">Sentences</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        <div class="stat-item">
+                                            <div class="stat-number" id="paragraphCount">0</div>
+                                            <div class="stat-label">Paragraphs</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        <div class="stat-item">
+                                            <div class="stat-number" id="lineCount">0</div>
+                                            <div class="stat-label">Lines</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Reading Time -->
+                                <div class="mt-4 p-3 bg-light rounded">
+                                    <h6 class="mb-2"><i class="fas fa-clock me-2"></i>Reading Time</h6>
+                                    <div class="row text-center">
+                                        <div class="col-6">
+                                            <div class="stat-number text-primary" id="readingTime">0 min</div>
+                                            <div class="stat-label">Average</div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="stat-number text-success" id="speakingTime">0 min</div>
+                                            <div class="stat-label">Speaking</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Analysis -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i>Detailed Analysis</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6><i class="fas fa-list me-2"></i>Most Common Words</h6>
+                                        <div id="commonWords" class="mb-3">
+                                            <p class="text-muted">Enter text to see word frequency analysis</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6><i class="fas fa-ruler me-2"></i>Text Length</h6>
+                                        <div class="mb-2">
+                                            <label class="form-label">Word Count: <span id="wordCountDetail">0</span></label>
+                                            <div class="progress">
+                                                <div class="progress-bar" id="wordProgress" role="progressbar" style="width: 0%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label class="form-label">Character Count: <span id="charCountDetail">0</span></label>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-success" id="charProgress" role="progressbar" style="width: 0%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ad Section - Bottom -->
+            <div class="ad-section text-center py-3">
+                <div class="ad-placeholder">
+                    <p class="text-muted mb-0">Advertisement Space</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer will be loaded dynamically -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/tools-data.js"></script>
+    
+    <!-- Tool Specific JS -->
+    <script>
+        // Word Counter Tool JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            const textInput = document.getElementById('textInput');
+            
+            // Add event listeners
+            textInput.addEventListener('input', analyzeText);
+            textInput.addEventListener('paste', analyzeText);
+            
+            // Initial analysis
+            analyzeText();
+        });
+
+        function analyzeText() {
+            const text = document.getElementById('textInput').value;
+            
+            // Basic counts
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            const characters = text.length;
+            const charactersNoSpace = text.replace(/\s/g, '').length;
+            const sentences = text.split(/[.!?]+/).filter(sentence => sentence.trim().length > 0).length;
+            const paragraphs = text.split(/\n\s*\n/).filter(para => para.trim().length > 0).length;
+            const lines = text.split('\n').filter(line => line.trim().length > 0).length;
+            
+            // Update basic stats
+            document.getElementById('wordCount').textContent = words.toLocaleString();
+            document.getElementById('charCount').textContent = characters.toLocaleString();
+            document.getElementById('charNoSpaceCount').textContent = charactersNoSpace.toLocaleString();
+            document.getElementById('sentenceCount').textContent = sentences.toLocaleString();
+            document.getElementById('paragraphCount').textContent = paragraphs.toLocaleString();
+            document.getElementById('lineCount').textContent = lines.toLocaleString();
+            
+            // Update detailed stats
+            document.getElementById('wordCountDetail').textContent = words.toLocaleString();
+            document.getElementById('charCountDetail').textContent = characters.toLocaleString();
+            
+            // Calculate reading time (average 200 words per minute)
+            const readingTime = Math.ceil(words / 200);
+            const speakingTime = Math.ceil(words / 150); // Speaking is slower
+            
+            document.getElementById('readingTime').textContent = readingTime + ' min';
+            document.getElementById('speakingTime').textContent = speakingTime + ' min';
+            
+            // Update progress bars
+            const wordProgress = Math.min((words / 1000) * 100, 100);
+            const charProgress = Math.min((characters / 5000) * 100, 100);
+            
+            document.getElementById('wordProgress').style.width = wordProgress + '%';
+            document.getElementById('charProgress').style.width = charProgress + '%';
+            
+            // Analyze common words
+            analyzeCommonWords(text);
+        }
+
+        function analyzeCommonWords(text) {
+            if (!text.trim()) {
+                document.getElementById('commonWords').innerHTML = '<p class="text-muted">Enter text to see word frequency analysis</p>';
+                return;
+            }
+            
+            // Remove punctuation and convert to lowercase
+            const cleanText = text.toLowerCase().replace(/[^\w\s]/g, '');
+            const words = cleanText.split(/\s+/).filter(word => word.length > 2);
+            
+            // Count word frequency
+            const wordCount = {};
+            words.forEach(word => {
+                wordCount[word] = (wordCount[word] || 0) + 1;
+            });
+            
+            // Sort by frequency
+            const sortedWords = Object.entries(wordCount)
+                .sort(([,a], [,b]) => b - a)
+                .slice(0, 10);
+            
+            // Display results
+            let html = '';
+            if (sortedWords.length > 0) {
+                sortedWords.forEach(([word, count]) => {
+                    html += `
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="badge bg-primary">${word}</span>
+                            <span class="text-muted">${count}</span>
+                        </div>
+                    `;
+                });
+            } else {
+                html = '<p class="text-muted">No common words found</p>';
+            }
+            
+            document.getElementById('commonWords').innerHTML = html;
+        }
+
+        function clearText() {
+            document.getElementById('textInput').value = '';
+            analyzeText();
+            showToast('Text cleared!', 'success');
+        }
+
+        function copyText() {
+            const text = document.getElementById('textInput').value;
+            if (text) {
+                copyToClipboard(text);
+            } else {
+                showToast('No text to copy!', 'error');
+            }
+        }
+
+        function downloadText() {
+            const text = document.getElementById('textInput').value;
+            if (!text) {
+                showToast('No text to download!', 'error');
+                return;
+            }
+            
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'text-analysis.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            
+            showToast('Text downloaded successfully!', 'success');
+        }
+
+        // Add custom styles for this tool
+        const style = document.createElement('style');
+        style.textContent = `
+            .stat-item {
+                padding: 1rem;
+                border-radius: 10px;
+                background: #f8f9fa;
+                transition: all 0.3s ease;
+            }
+            
+            .stat-item:hover {
+                background: #e9ecef;
+                transform: translateY(-2px);
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+                font-weight: 700;
+                color: var(--primary-color);
+                margin-bottom: 0.5rem;
+            }
+            
+            .stat-label {
+                font-size: 0.9rem;
+                color: #6c757d;
+                font-weight: 500;
+            }
+            
+            .progress {
+                height: 8px;
+                border-radius: 4px;
+            }
+            
+            .progress-bar {
+                border-radius: 4px;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html> 

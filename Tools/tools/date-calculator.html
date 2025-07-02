@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Calculator - Multi-Tools Hub</title>
+    <meta name="description" content="Calculate date differences and add/subtract days.">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <!-- Header will be loaded dynamically -->
+    <div id="header-placeholder"></div>
+
+    <!-- Main Content -->
+    <main class="container-fluid py-4">
+        <div class="tool-container">
+            <!-- Tool Header -->
+            <div class="tool-header">
+                <h1><i class="fas fa-calendar-alt me-3"></i>Date Calculator</h1>
+                <p>Calculate date differences and add or subtract days from dates.</p>
+            </div>
+
+            <!-- Tool Content -->
+            <div class="tool-content">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-calculator me-2"></i>Date Calculations</h5>
+                            </div>
+                            <div class="card-body">
+                                <ul class="nav nav-tabs" id="dateTabs" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="difference-tab" data-bs-toggle="tab" data-bs-target="#difference" type="button" role="tab">Date Difference</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="add-subtract-tab" data-bs-toggle="tab" data-bs-target="#add-subtract" type="button" role="tab">Add/Subtract Days</button>
+                                    </li>
+                                </ul>
+                                
+                                <div class="tab-content mt-3" id="dateTabsContent">
+                                    <!-- Date Difference Tab -->
+                                    <div class="tab-pane fade show active" id="difference" role="tabpanel">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Start Date</label>
+                                                <input type="date" class="form-control" id="startDate">
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">End Date</label>
+                                                <input type="date" class="form-control" id="endDate">
+                                            </div>
+                                        </div>
+                                        <div class="text-center mb-3">
+                                            <button class="btn btn-primary" onclick="calculateDifference()">
+                                                <i class="fas fa-calculate me-2"></i>Calculate Difference
+                                            </button>
+                                        </div>
+                                        <div id="differenceResult" class="text-center" style="display: none;">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="card bg-primary text-white">
+                                                        <div class="card-body">
+                                                            <h3 id="diffDays">0</h3>
+                                                            <p class="mb-0">Days</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="card bg-success text-white">
+                                                        <div class="card-body">
+                                                            <h3 id="diffWeeks">0</h3>
+                                                            <p class="mb-0">Weeks</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="card bg-info text-white">
+                                                        <div class="card-body">
+                                                            <h3 id="diffMonths">0</h3>
+                                                            <p class="mb-0">Months</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="card bg-warning text-dark">
+                                                        <div class="card-body">
+                                                            <h3 id="diffYears">0</h3>
+                                                            <p class="mb-0">Years</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Add/Subtract Tab -->
+                                    <div class="tab-pane fade" id="add-subtract" role="tabpanel">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Base Date</label>
+                                                <input type="date" class="form-control" id="baseDate">
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <label class="form-label">Days</label>
+                                                <input type="number" class="form-control" id="daysToAdd" value="1" placeholder="Enter days">
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <label class="form-label">Operation</label>
+                                                <select class="form-select" id="operation">
+                                                    <option value="add">Add</option>
+                                                    <option value="subtract">Subtract</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="text-center mb-3">
+                                            <button class="btn btn-primary" onclick="calculateNewDate()">
+                                                <i class="fas fa-calculate me-2"></i>Calculate New Date
+                                            </button>
+                                        </div>
+                                        <div id="newDateResult" class="text-center" style="display: none;">
+                                            <div class="card bg-light">
+                                                <div class="card-body">
+                                                    <h3 id="newDate">-</h3>
+                                                    <p class="text-muted mb-0">New Date</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>How to Use</h5>
+                            </div>
+                            <div class="card-body">
+                                <h6>Date Difference:</h6>
+                                <ol>
+                                    <li>Select start date</li>
+                                    <li>Select end date</li>
+                                    <li>Click calculate</li>
+                                </ol>
+                                <h6>Add/Subtract Days:</h6>
+                                <ol>
+                                    <li>Select base date</li>
+                                    <li>Enter number of days</li>
+                                    <li>Choose add or subtract</li>
+                                    <li>Click calculate</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer will be loaded dynamically -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/tools-data.js"></script>
+    
+    <!-- Tool Specific JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set default dates
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('startDate').value = today;
+            document.getElementById('endDate').value = today;
+            document.getElementById('baseDate').value = today;
+        });
+
+        function calculateDifference() {
+            const startDate = new Date(document.getElementById('startDate').value);
+            const endDate = new Date(document.getElementById('endDate').value);
+            
+            if (!document.getElementById('startDate').value || !document.getElementById('endDate').value) {
+                showToast('Please select both dates!', 'error');
+                return;
+            }
+            
+            const diffTime = Math.abs(endDate - startDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            // Calculate weeks, months, years
+            const diffWeeks = Math.floor(diffDays / 7);
+            const diffMonths = Math.floor(diffDays / 30.44);
+            const diffYears = Math.floor(diffDays / 365.25);
+            
+            document.getElementById('diffDays').textContent = diffDays;
+            document.getElementById('diffWeeks').textContent = diffWeeks;
+            document.getElementById('diffMonths').textContent = diffMonths;
+            document.getElementById('diffYears').textContent = diffYears;
+            
+            document.getElementById('differenceResult').style.display = 'block';
+        }
+
+        function calculateNewDate() {
+            const baseDate = new Date(document.getElementById('baseDate').value);
+            const days = parseInt(document.getElementById('daysToAdd').value);
+            const operation = document.getElementById('operation').value;
+            
+            if (!document.getElementById('baseDate').value || isNaN(days)) {
+                showToast('Please enter valid date and days!', 'error');
+                return;
+            }
+            
+            const newDate = new Date(baseDate);
+            if (operation === 'add') {
+                newDate.setDate(newDate.getDate() + days);
+            } else {
+                newDate.setDate(newDate.getDate() - days);
+            }
+            
+            document.getElementById('newDate').textContent = newDate.toLocaleDateString();
+            document.getElementById('newDateResult').style.display = 'block';
+        }
+    </script>
+</body>
+</html> 

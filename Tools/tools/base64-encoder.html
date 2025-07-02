@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base64 Encoder/Decoder - Multi-Tools Hub</title>
+    <meta name="description" content="Encode or decode Base64 strings.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main class="container-fluid py-4">
+        <div class="tool-container">
+            <div class="tool-header">
+                <h1><i class="fas fa-lock me-3"></i>Base64 Encoder/Decoder</h1>
+                <p>Encode or decode Base64 strings easily.</p>
+            </div>
+            <div class="tool-content">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-random me-2"></i>Base64 Encode/Decode</h5>
+                            </div>
+                            <div class="card-body">
+                                <label class="form-label">Input</label>
+                                <textarea class="form-control mb-3" id="b64Input" rows="5" placeholder="Enter text or Base64..."></textarea>
+                                <div class="text-center mb-3">
+                                    <button class="btn btn-primary" onclick="encodeBase64()"><i class="fas fa-arrow-up me-2"></i>Encode</button>
+                                    <button class="btn btn-success ms-2" onclick="decodeBase64()"><i class="fas fa-arrow-down me-2"></i>Decode</button>
+                                    <button class="btn btn-outline-danger ms-2" onclick="clearAll()"><i class="fas fa-trash me-2"></i>Clear</button>
+                                </div>
+                                <label class="form-label">Output</label>
+                                <textarea class="form-control" id="b64Output" rows="5" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>How to Use</h5>
+                            </div>
+                            <div class="card-body">
+                                <ol>
+                                    <li>Enter text or Base64 string</li>
+                                    <li>Click Encode or Decode</li>
+                                    <li>Copy or use the output</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/tools-data.js"></script>
+    <script>
+        function encodeBase64() {
+            const input = document.getElementById('b64Input').value;
+            try {
+                document.getElementById('b64Output').value = btoa(unescape(encodeURIComponent(input)));
+            } catch (e) {
+                showToast('Encoding failed!', 'error');
+            }
+        }
+        function decodeBase64() {
+            const input = document.getElementById('b64Input').value;
+            try {
+                document.getElementById('b64Output').value = decodeURIComponent(escape(atob(input)));
+            } catch (e) {
+                showToast('Decoding failed!', 'error');
+            }
+        }
+        function clearAll() {
+            document.getElementById('b64Input').value = '';
+            document.getElementById('b64Output').value = '';
+        }
+    </script>
+</body>
+</html> 

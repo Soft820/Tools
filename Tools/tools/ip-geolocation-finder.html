@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Geolocation Finder - Multi-Tools Hub</title>
+    <meta name="description" content="Find location information for IP addresses.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main class="container py-4">
+        <div class="tool-header mb-4">
+            <h1><i class="fas fa-map-marker-alt me-3"></i>IP Geolocation Finder</h1>
+            <p>Find location information for IP addresses (simulated demo).</p>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <input type="text" class="form-control mb-3" id="ipInput" placeholder="Enter IP address">
+                <div class="text-center mb-3">
+                    <button class="btn btn-primary" onclick="findGeo()">Find Location</button>
+                    <button class="btn btn-outline-danger ms-2" onclick="clearGeo()">Clear</button>
+                </div>
+                <div id="geoResult" class="alert alert-info text-break" style="display:none;"></div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function findGeo() {
+            const ip = document.getElementById('ipInput').value;
+            if (!ip) return;
+            // Simulate random location
+            const locations = [
+                {city:'New York', country:'USA'},
+                {city:'London', country:'UK'},
+                {city:'Delhi', country:'India'},
+                {city:'Tokyo', country:'Japan'},
+                {city:'Sydney', country:'Australia'}
+            ];
+            const loc = locations[Math.floor(Math.random()*locations.length)];
+            document.getElementById('geoResult').style.display = 'block';
+            document.getElementById('geoResult').textContent = `IP: ${ip}\nCity: ${loc.city}\nCountry: ${loc.country}`;
+        }
+        function clearGeo() {
+            document.getElementById('ipInput').value = '';
+            document.getElementById('geoResult').style.display = 'none';
+        }
+    </script>
+</body>
+</html> 

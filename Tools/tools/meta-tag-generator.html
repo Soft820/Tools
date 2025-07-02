@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meta Tag Generator - Multi-Tools Hub</title>
+    <meta name="description" content="Generate SEO meta tags for your website.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main class="container-fluid py-4">
+        <div class="tool-container">
+            <div class="tool-header">
+                <h1><i class="fas fa-tags me-3"></i>Meta Tag Generator</h1>
+                <p>Generate SEO meta tags for your website easily.</p>
+            </div>
+            <div class="tool-content">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-code me-2"></i>Generate Meta Tags</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Title</label>
+                                    <input type="text" class="form-control" id="metaTitle" placeholder="Website Title">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Description</label>
+                                    <textarea class="form-control" id="metaDescription" rows="2" placeholder="Website Description"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Keywords (comma separated)</label>
+                                    <input type="text" class="form-control" id="metaKeywords" placeholder="keyword1, keyword2, ...">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Author</label>
+                                    <input type="text" class="form-control" id="metaAuthor" placeholder="Author Name">
+                                </div>
+                                <div class="text-center mb-3">
+                                    <button class="btn btn-primary" onclick="generateMetaTags()"><i class="fas fa-magic me-2"></i>Generate</button>
+                                    <button class="btn btn-outline-secondary ms-2" onclick="copyMetaTags()"><i class="fas fa-copy me-2"></i>Copy</button>
+                                    <button class="btn btn-outline-danger ms-2" onclick="clearMetaTags()"><i class="fas fa-trash me-2"></i>Clear</button>
+                                </div>
+                                <label class="form-label">Generated Meta Tags</label>
+                                <textarea class="form-control" id="metaOutput" rows="7" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>How to Use</h5>
+                            </div>
+                            <div class="card-body">
+                                <ol>
+                                    <li>Fill in the details</li>
+                                    <li>Click Generate</li>
+                                    <li>Copy and use the meta tags in your HTML</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/tools-data.js"></script>
+    <script>
+        function generateMetaTags() {
+            const title = document.getElementById('metaTitle').value;
+            const description = document.getElementById('metaDescription').value;
+            const keywords = document.getElementById('metaKeywords').value;
+            const author = document.getElementById('metaAuthor').value;
+            let tags = '';
+            if (title) tags += `<title>${title}</title>\n`;
+            if (description) tags += `<meta name="description" content="${description}">\n`;
+            if (keywords) tags += `<meta name="keywords" content="${keywords}">\n`;
+            if (author) tags += `<meta name="author" content="${author}">\n`;
+            tags += `<meta name="viewport" content="width=device-width, initial-scale=1.0">\n`;
+            document.getElementById('metaOutput').value = tags.trim();
+        }
+        function copyMetaTags() {
+            const output = document.getElementById('metaOutput');
+            if (output.value) {
+                output.select();
+                document.execCommand('copy');
+                showToast('Copied!', 'success');
+            }
+        }
+        function clearMetaTags() {
+            document.getElementById('metaTitle').value = '';
+            document.getElementById('metaDescription').value = '';
+            document.getElementById('metaKeywords').value = '';
+            document.getElementById('metaAuthor').value = '';
+            document.getElementById('metaOutput').value = '';
+        }
+    </script>
+</body>
+</html> 

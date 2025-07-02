@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific Calculator - Multi-Tools Hub</title>
+    <meta name="description" content="Advanced scientific calculator with functions.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main class="container-fluid py-4">
+        <div class="tool-container">
+            <div class="tool-header">
+                <h1><i class="fas fa-calculator me-3"></i>Scientific Calculator</h1>
+                <p>Advanced scientific calculator with trigonometric, logarithmic, and power functions.</p>
+            </div>
+            <div class="tool-content">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-calculator me-2"></i>Calculator</h5>
+                            </div>
+                            <div class="card-body">
+                                <input type="text" class="form-control mb-3" id="sciInput" placeholder="Enter expression (e.g. sin(30) + log(10))">
+                                <div class="text-center mb-3">
+                                    <button class="btn btn-primary" onclick="calculateSci()"><i class="fas fa-equals me-2"></i>Calculate</button>
+                                    <button class="btn btn-outline-danger ms-2" onclick="clearSci()"><i class="fas fa-trash me-2"></i>Clear</button>
+                                </div>
+                                <div id="sciResult" class="text-center"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Functions Supported</h5>
+                            </div>
+                            <div class="card-body">
+                                <ul>
+                                    <li>sin(x), cos(x), tan(x)</li>
+                                    <li>log(x), ln(x)</li>
+                                    <li>sqrt(x), pow(x, y)</li>
+                                    <li>+, -, *, /, ^</li>
+                                </ul>
+                                <p class="text-muted small mt-2">Use degrees for trig functions.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/tools-data.js"></script>
+    <script>
+        function calculateSci() {
+            let expr = document.getElementById('sciInput').value;
+            if (!expr.trim()) {
+                showToast('Please enter an expression!', 'error');
+                return;
+            }
+            try {
+                expr = expr.replace(/sin\(([^)]+)\)/g, (_, x) => Math.sin(Number(x) * Math.PI / 180))
+                           .replace(/cos\(([^)]+)\)/g, (_, x) => Math.cos(Number(x) * Math.PI / 180))
+                           .replace(/tan\(([^)]+)\)/g, (_, x) => Math.tan(Number(x) * Math.PI / 180))
+                           .replace(/log\(([^)]+)\)/g, (_, x) => Math.log10(Number(x)))
+                           .replace(/ln\(([^)]+)\)/g, (_, x) => Math.log(Number(x)))
+                           .replace(/sqrt\(([^)]+)\)/g, (_, x) => Math.sqrt(Number(x)))
+                           .replace(/pow\(([^,]+),([^)]+)\)/g, (_, x, y) => Math.pow(Number(x), Number(y)))
+                           .replace(/\^/g, '**');
+                const result = Function(`"use strict";return (${expr})`)();
+                document.getElementById('sciResult').innerHTML = `<div class='alert alert-info'><b>Result:</b> ${result}</div>`;
+            } catch (e) {
+                document.getElementById('sciResult').innerHTML = `<div class='alert alert-danger'>Invalid expression!</div>`;
+            }
+        }
+        function clearSci() {
+            document.getElementById('sciInput').value = '';
+            document.getElementById('sciResult').innerHTML = '';
+        }
+    </script>
+</body>
+</html> 

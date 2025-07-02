@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speed Converter - Multi-Tools Hub</title>
+    <meta name="description" content="Convert between different speed units.">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <!-- Header will be loaded dynamically -->
+    <div id="header-placeholder"></div>
+
+    <!-- Main Content -->
+    <main class="container-fluid py-4">
+        <div class="tool-container">
+            <!-- Tool Header -->
+            <div class="tool-header">
+                <h1><i class="fas fa-tachometer-alt me-3"></i>Speed Converter</h1>
+                <p>Convert between different speed units like km/h, mph, m/s, and knots.</p>
+            </div>
+
+            <!-- Tool Content -->
+            <div class="tool-content">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-exchange-alt me-2"></i>Speed Conversion</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Kilometers per Hour (km/h)</label>
+                                        <input type="number" class="form-control" id="kmh" placeholder="Enter km/h">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Miles per Hour (mph)</label>
+                                        <input type="number" class="form-control" id="mph" placeholder="Enter mph">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Meters per Second (m/s)</label>
+                                        <input type="number" class="form-control" id="ms" placeholder="Enter m/s">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Knots (kn)</label>
+                                        <input type="number" class="form-control" id="knots" placeholder="Enter knots">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Feet per Second (ft/s)</label>
+                                        <input type="number" class="form-control" id="fts" placeholder="Enter ft/s">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Mach (M)</label>
+                                        <input type="number" class="form-control" id="mach" placeholder="Enter Mach">
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button class="btn btn-primary" onclick="clearAll()">
+                                        <i class="fas fa-eraser me-2"></i>Clear All
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Conversion Factors</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>1 km/h</strong> = 0.621371 mph</p>
+                                <p><strong>1 mph</strong> = 1.60934 km/h</p>
+                                <p><strong>1 m/s</strong> = 3.6 km/h</p>
+                                <p><strong>1 knot</strong> = 1.852 km/h</p>
+                                <p><strong>1 ft/s</strong> = 1.09728 km/h</p>
+                                <p><strong>1 Mach</strong> = 1225.044 km/h</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer will be loaded dynamically -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/tools-data.js"></script>
+    
+    <!-- Tool Specific JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add event listeners for real-time conversion
+            document.getElementById('kmh').addEventListener('input', convertFromKmh);
+            document.getElementById('mph').addEventListener('input', convertFromMph);
+            document.getElementById('ms').addEventListener('input', convertFromMs);
+            document.getElementById('knots').addEventListener('input', convertFromKnots);
+            document.getElementById('fts').addEventListener('input', convertFromFts);
+            document.getElementById('mach').addEventListener('input', convertFromMach);
+        });
+
+        function convertFromKmh() {
+            const kmh = parseFloat(document.getElementById('kmh').value);
+            if (!isNaN(kmh)) {
+                document.getElementById('mph').value = (kmh * 0.621371).toFixed(3);
+                document.getElementById('ms').value = (kmh / 3.6).toFixed(3);
+                document.getElementById('knots').value = (kmh / 1.852).toFixed(3);
+                document.getElementById('fts').value = (kmh / 1.09728).toFixed(3);
+                document.getElementById('mach').value = (kmh / 1225.044).toFixed(6);
+            }
+        }
+
+        function convertFromMph() {
+            const mph = parseFloat(document.getElementById('mph').value);
+            if (!isNaN(mph)) {
+                const kmh = mph * 1.60934;
+                document.getElementById('kmh').value = kmh.toFixed(3);
+                document.getElementById('ms').value = (kmh / 3.6).toFixed(3);
+                document.getElementById('knots').value = (kmh / 1.852).toFixed(3);
+                document.getElementById('fts').value = (kmh / 1.09728).toFixed(3);
+                document.getElementById('mach').value = (kmh / 1225.044).toFixed(6);
+            }
+        }
+
+        function convertFromMs() {
+            const ms = parseFloat(document.getElementById('ms').value);
+            if (!isNaN(ms)) {
+                const kmh = ms * 3.6;
+                document.getElementById('kmh').value = kmh.toFixed(3);
+                document.getElementById('mph').value = (kmh * 0.621371).toFixed(3);
+                document.getElementById('knots').value = (kmh / 1.852).toFixed(3);
+                document.getElementById('fts').value = (kmh / 1.09728).toFixed(3);
+                document.getElementById('mach').value = (kmh / 1225.044).toFixed(6);
+            }
+        }
+
+        function convertFromKnots() {
+            const knots = parseFloat(document.getElementById('knots').value);
+            if (!isNaN(knots)) {
+                const kmh = knots * 1.852;
+                document.getElementById('kmh').value = kmh.toFixed(3);
+                document.getElementById('mph').value = (kmh * 0.621371).toFixed(3);
+                document.getElementById('ms').value = (kmh / 3.6).toFixed(3);
+                document.getElementById('fts').value = (kmh / 1.09728).toFixed(3);
+                document.getElementById('mach').value = (kmh / 1225.044).toFixed(6);
+            }
+        }
+
+        function convertFromFts() {
+            const fts = parseFloat(document.getElementById('fts').value);
+            if (!isNaN(fts)) {
+                const kmh = fts * 1.09728;
+                document.getElementById('kmh').value = kmh.toFixed(3);
+                document.getElementById('mph').value = (kmh * 0.621371).toFixed(3);
+                document.getElementById('ms').value = (kmh / 3.6).toFixed(3);
+                document.getElementById('knots').value = (kmh / 1.852).toFixed(3);
+                document.getElementById('mach').value = (kmh / 1225.044).toFixed(6);
+            }
+        }
+
+        function convertFromMach() {
+            const mach = parseFloat(document.getElementById('mach').value);
+            if (!isNaN(mach)) {
+                const kmh = mach * 1225.044;
+                document.getElementById('kmh').value = kmh.toFixed(3);
+                document.getElementById('mph').value = (kmh * 0.621371).toFixed(3);
+                document.getElementById('ms').value = (kmh / 3.6).toFixed(3);
+                document.getElementById('knots').value = (kmh / 1.852).toFixed(3);
+                document.getElementById('fts').value = (kmh / 1.09728).toFixed(3);
+            }
+        }
+
+        function clearAll() {
+            document.getElementById('kmh').value = '';
+            document.getElementById('mph').value = '';
+            document.getElementById('ms').value = '';
+            document.getElementById('knots').value = '';
+            document.getElementById('fts').value = '';
+            document.getElementById('mach').value = '';
+        }
+    </script>
+</body>
+</html> 

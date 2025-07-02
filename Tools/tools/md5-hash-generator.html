@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MD5 Hash Generator - Multi-Tools Hub</title>
+    <meta name="description" content="Generate MD5 hash for text.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main class="container-fluid py-4">
+        <div class="tool-container">
+            <div class="tool-header">
+                <h1><i class="fas fa-lock me-3"></i>MD5 Hash Generator</h1>
+                <p>Generate MD5 hash for your text input.</p>
+            </div>
+            <div class="tool-content">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-key me-2"></i>Generate MD5 Hash</h5>
+                            </div>
+                            <div class="card-body">
+                                <textarea class="form-control mb-3" id="md5Input" rows="3" placeholder="Enter text..."></textarea>
+                                <div class="text-center mb-3">
+                                    <button class="btn btn-primary" onclick="generateMD5()"><i class="fas fa-lock me-2"></i>Generate</button>
+                                    <button class="btn btn-outline-danger ms-2" onclick="clearMD5()"><i class="fas fa-trash me-2"></i>Clear</button>
+                                </div>
+                                <div id="md5Result" class="alert alert-info text-break" style="display:none;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>How to Use</h5>
+                            </div>
+                            <div class="card-body">
+                                <ol>
+                                    <li>Enter your text</li>
+                                    <li>Click Generate</li>
+                                    <li>Copy the MD5 hash</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/tools-data.js"></script>
+    <script>
+        function generateMD5() {
+            const input = document.getElementById('md5Input').value;
+            if (!input) {
+                showToast('Please enter text!', 'error');
+                return;
+            }
+            const hash = md5(input);
+            document.getElementById('md5Result').style.display = 'block';
+            document.getElementById('md5Result').textContent = hash;
+        }
+        function clearMD5() {
+            document.getElementById('md5Input').value = '';
+            document.getElementById('md5Result').style.display = 'none';
+        }
+    </script>
+</body>
+</html> 

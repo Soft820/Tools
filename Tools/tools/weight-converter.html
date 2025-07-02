@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weight Converter - Multi-Tools Hub</title>
+    <meta name="description" content="Convert between different weight units.">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <!-- Header will be loaded dynamically -->
+    <div id="header-placeholder"></div>
+
+    <!-- Main Content -->
+    <main class="container-fluid py-4">
+        <div class="tool-container">
+            <!-- Tool Header -->
+            <div class="tool-header">
+                <h1><i class="fas fa-weight-hanging me-3"></i>Weight Converter</h1>
+                <p>Convert between different weight units like kilograms, pounds, ounces, and more.</p>
+            </div>
+
+            <!-- Tool Content -->
+            <div class="tool-content">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-exchange-alt me-2"></i>Weight Conversion</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Kilograms (kg)</label>
+                                        <input type="number" class="form-control" id="kilograms" placeholder="Enter kg">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Pounds (lbs)</label>
+                                        <input type="number" class="form-control" id="pounds" placeholder="Enter lbs">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Ounces (oz)</label>
+                                        <input type="number" class="form-control" id="ounces" placeholder="Enter oz">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Grams (g)</label>
+                                        <input type="number" class="form-control" id="grams" placeholder="Enter g">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Tons (t)</label>
+                                        <input type="number" class="form-control" id="tons" placeholder="Enter tons">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Stone (st)</label>
+                                        <input type="number" class="form-control" id="stone" placeholder="Enter stone">
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button class="btn btn-primary" onclick="clearAll()">
+                                        <i class="fas fa-eraser me-2"></i>Clear All
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Conversion Factors</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>1 kg</strong> = 2.20462 lbs</p>
+                                <p><strong>1 lb</strong> = 16 oz</p>
+                                <p><strong>1 oz</strong> = 28.3495 g</p>
+                                <p><strong>1 ton</strong> = 1000 kg</p>
+                                <p><strong>1 stone</strong> = 14 lbs</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer will be loaded dynamically -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/tools-data.js"></script>
+    
+    <!-- Tool Specific JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add event listeners for real-time conversion
+            document.getElementById('kilograms').addEventListener('input', convertFromKg);
+            document.getElementById('pounds').addEventListener('input', convertFromLbs);
+            document.getElementById('ounces').addEventListener('input', convertFromOz);
+            document.getElementById('grams').addEventListener('input', convertFromGrams);
+            document.getElementById('tons').addEventListener('input', convertFromTons);
+            document.getElementById('stone').addEventListener('input', convertFromStone);
+        });
+
+        function convertFromKg() {
+            const kg = parseFloat(document.getElementById('kilograms').value);
+            if (!isNaN(kg)) {
+                document.getElementById('pounds').value = (kg * 2.20462).toFixed(3);
+                document.getElementById('ounces').value = (kg * 35.274).toFixed(3);
+                document.getElementById('grams').value = (kg * 1000).toFixed(2);
+                document.getElementById('tons').value = (kg / 1000).toFixed(6);
+                document.getElementById('stone').value = (kg * 0.157473).toFixed(3);
+            }
+        }
+
+        function convertFromLbs() {
+            const lbs = parseFloat(document.getElementById('pounds').value);
+            if (!isNaN(lbs)) {
+                const kg = lbs / 2.20462;
+                document.getElementById('kilograms').value = kg.toFixed(3);
+                document.getElementById('ounces').value = (lbs * 16).toFixed(3);
+                document.getElementById('grams').value = (kg * 1000).toFixed(2);
+                document.getElementById('tons').value = (kg / 1000).toFixed(6);
+                document.getElementById('stone').value = (lbs / 14).toFixed(3);
+            }
+        }
+
+        function convertFromOz() {
+            const oz = parseFloat(document.getElementById('ounces').value);
+            if (!isNaN(oz)) {
+                const kg = oz / 35.274;
+                document.getElementById('kilograms').value = kg.toFixed(3);
+                document.getElementById('pounds').value = (oz / 16).toFixed(3);
+                document.getElementById('grams').value = (oz * 28.3495).toFixed(2);
+                document.getElementById('tons').value = (kg / 1000).toFixed(6);
+                document.getElementById('stone').value = (oz / 224).toFixed(3);
+            }
+        }
+
+        function convertFromGrams() {
+            const grams = parseFloat(document.getElementById('grams').value);
+            if (!isNaN(grams)) {
+                const kg = grams / 1000;
+                document.getElementById('kilograms').value = kg.toFixed(3);
+                document.getElementById('pounds').value = (kg * 2.20462).toFixed(3);
+                document.getElementById('ounces').value = (grams / 28.3495).toFixed(3);
+                document.getElementById('tons').value = (kg / 1000).toFixed(6);
+                document.getElementById('stone').value = (kg * 0.157473).toFixed(3);
+            }
+        }
+
+        function convertFromTons() {
+            const tons = parseFloat(document.getElementById('tons').value);
+            if (!isNaN(tons)) {
+                const kg = tons * 1000;
+                document.getElementById('kilograms').value = kg.toFixed(3);
+                document.getElementById('pounds').value = (kg * 2.20462).toFixed(3);
+                document.getElementById('ounces').value = (kg * 35.274).toFixed(3);
+                document.getElementById('grams').value = (kg * 1000).toFixed(2);
+                document.getElementById('stone').value = (kg * 0.157473).toFixed(3);
+            }
+        }
+
+        function convertFromStone() {
+            const stone = parseFloat(document.getElementById('stone').value);
+            if (!isNaN(stone)) {
+                const kg = stone / 0.157473;
+                document.getElementById('kilograms').value = kg.toFixed(3);
+                document.getElementById('pounds').value = (stone * 14).toFixed(3);
+                document.getElementById('ounces').value = (stone * 224).toFixed(3);
+                document.getElementById('grams').value = (kg * 1000).toFixed(2);
+                document.getElementById('tons').value = (kg / 1000).toFixed(6);
+            }
+        }
+
+        function clearAll() {
+            document.getElementById('kilograms').value = '';
+            document.getElementById('pounds').value = '';
+            document.getElementById('ounces').value = '';
+            document.getElementById('grams').value = '';
+            document.getElementById('tons').value = '';
+            document.getElementById('stone').value = '';
+        }
+    </script>
+</body>
+</html> 

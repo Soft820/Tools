@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Length Converter - Multi-Tools Hub</title>
+    <meta name="description" content="Convert between different length units.">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <!-- Header will be loaded dynamically -->
+    <div id="header-placeholder"></div>
+
+    <!-- Main Content -->
+    <main class="container-fluid py-4">
+        <div class="tool-container">
+            <!-- Tool Header -->
+            <div class="tool-header">
+                <h1><i class="fas fa-ruler-horizontal me-3"></i>Length Converter</h1>
+                <p>Convert between different length units like meters, feet, inches, and more.</p>
+            </div>
+
+            <!-- Tool Content -->
+            <div class="tool-content">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-exchange-alt me-2"></i>Length Conversion</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Meters</label>
+                                        <input type="number" class="form-control" id="meters" placeholder="Enter meters">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Feet</label>
+                                        <input type="number" class="form-control" id="feet" placeholder="Enter feet">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Inches</label>
+                                        <input type="number" class="form-control" id="inches" placeholder="Enter inches">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Centimeters</label>
+                                        <input type="number" class="form-control" id="centimeters" placeholder="Enter cm">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Kilometers</label>
+                                        <input type="number" class="form-control" id="kilometers" placeholder="Enter km">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Miles</label>
+                                        <input type="number" class="form-control" id="miles" placeholder="Enter miles">
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button class="btn btn-primary" onclick="clearAll()">
+                                        <i class="fas fa-eraser me-2"></i>Clear All
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Conversion Factors</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>1 meter</strong> = 3.28084 feet</p>
+                                <p><strong>1 foot</strong> = 12 inches</p>
+                                <p><strong>1 inch</strong> = 2.54 centimeters</p>
+                                <p><strong>1 kilometer</strong> = 1000 meters</p>
+                                <p><strong>1 mile</strong> = 5280 feet</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer will be loaded dynamically -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/tools-data.js"></script>
+    
+    <!-- Tool Specific JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add event listeners for real-time conversion
+            document.getElementById('meters').addEventListener('input', convertFromMeters);
+            document.getElementById('feet').addEventListener('input', convertFromFeet);
+            document.getElementById('inches').addEventListener('input', convertFromInches);
+            document.getElementById('centimeters').addEventListener('input', convertFromCentimeters);
+            document.getElementById('kilometers').addEventListener('input', convertFromKilometers);
+            document.getElementById('miles').addEventListener('input', convertFromMiles);
+        });
+
+        function convertFromMeters() {
+            const meters = parseFloat(document.getElementById('meters').value);
+            if (!isNaN(meters)) {
+                document.getElementById('feet').value = (meters * 3.28084).toFixed(3);
+                document.getElementById('inches').value = (meters * 39.3701).toFixed(3);
+                document.getElementById('centimeters').value = (meters * 100).toFixed(2);
+                document.getElementById('kilometers').value = (meters / 1000).toFixed(6);
+                document.getElementById('miles').value = (meters / 1609.34).toFixed(6);
+            }
+        }
+
+        function convertFromFeet() {
+            const feet = parseFloat(document.getElementById('feet').value);
+            if (!isNaN(feet)) {
+                const meters = feet / 3.28084;
+                document.getElementById('meters').value = meters.toFixed(3);
+                document.getElementById('inches').value = (feet * 12).toFixed(3);
+                document.getElementById('centimeters').value = (meters * 100).toFixed(2);
+                document.getElementById('kilometers').value = (meters / 1000).toFixed(6);
+                document.getElementById('miles').value = (feet / 5280).toFixed(6);
+            }
+        }
+
+        function convertFromInches() {
+            const inches = parseFloat(document.getElementById('inches').value);
+            if (!isNaN(inches)) {
+                const meters = inches / 39.3701;
+                document.getElementById('meters').value = meters.toFixed(3);
+                document.getElementById('feet').value = (inches / 12).toFixed(3);
+                document.getElementById('centimeters').value = (inches * 2.54).toFixed(2);
+                document.getElementById('kilometers').value = (meters / 1000).toFixed(6);
+                document.getElementById('miles').value = (inches / 63360).toFixed(6);
+            }
+        }
+
+        function convertFromCentimeters() {
+            const centimeters = parseFloat(document.getElementById('centimeters').value);
+            if (!isNaN(centimeters)) {
+                const meters = centimeters / 100;
+                document.getElementById('meters').value = meters.toFixed(3);
+                document.getElementById('feet').value = (meters * 3.28084).toFixed(3);
+                document.getElementById('inches').value = (centimeters / 2.54).toFixed(3);
+                document.getElementById('kilometers').value = (meters / 1000).toFixed(6);
+                document.getElementById('miles').value = (meters / 1609.34).toFixed(6);
+            }
+        }
+
+        function convertFromKilometers() {
+            const kilometers = parseFloat(document.getElementById('kilometers').value);
+            if (!isNaN(kilometers)) {
+                const meters = kilometers * 1000;
+                document.getElementById('meters').value = meters.toFixed(3);
+                document.getElementById('feet').value = (meters * 3.28084).toFixed(3);
+                document.getElementById('inches').value = (meters * 39.3701).toFixed(3);
+                document.getElementById('centimeters').value = (meters * 100).toFixed(2);
+                document.getElementById('miles').value = (kilometers * 0.621371).toFixed(6);
+            }
+        }
+
+        function convertFromMiles() {
+            const miles = parseFloat(document.getElementById('miles').value);
+            if (!isNaN(miles)) {
+                const meters = miles * 1609.34;
+                document.getElementById('meters').value = meters.toFixed(3);
+                document.getElementById('feet').value = (miles * 5280).toFixed(3);
+                document.getElementById('inches').value = (miles * 63360).toFixed(3);
+                document.getElementById('centimeters').value = (meters * 100).toFixed(2);
+                document.getElementById('kilometers').value = (miles * 1.60934).toFixed(6);
+            }
+        }
+
+        function clearAll() {
+            document.getElementById('meters').value = '';
+            document.getElementById('feet').value = '';
+            document.getElementById('inches').value = '';
+            document.getElementById('centimeters').value = '';
+            document.getElementById('kilometers').value = '';
+            document.getElementById('miles').value = '';
+        }
+    </script>
+</body>
+</html> 

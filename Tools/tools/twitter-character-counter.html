@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter Character Counter - Multi-Tools Hub</title>
+    <meta name="description" content="Count characters for Twitter posts.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main class="container py-4">
+        <div class="tool-header mb-4">
+            <h1><i class="fab fa-twitter me-3"></i>Twitter Character Counter</h1>
+            <p>Count characters for your Twitter posts (limit: 280).</p>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <textarea class="form-control mb-3" id="tweetInput" rows="3" placeholder="Type your tweet..."></textarea>
+                <div class="text-center mb-3">
+                    <span id="charCount" class="badge bg-info">0 / 280</span>
+                </div>
+                <div id="tweetWarning" class="alert alert-danger text-center" style="display:none;">Over 280 characters!</div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const tweetInput = document.getElementById('tweetInput');
+        const charCount = document.getElementById('charCount');
+        const tweetWarning = document.getElementById('tweetWarning');
+        tweetInput.addEventListener('input', function() {
+            const len = tweetInput.value.length;
+            charCount.textContent = `${len} / 280`;
+            if (len > 280) {
+                tweetWarning.style.display = 'block';
+            } else {
+                tweetWarning.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html> 

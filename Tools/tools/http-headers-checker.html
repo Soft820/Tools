@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTP Headers Checker - Multi-Tools Hub</title>
+    <meta name="description" content="Check HTTP headers of websites.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main class="container py-4">
+        <div class="tool-header mb-4">
+            <h1><i class="fas fa-server me-3"></i>HTTP Headers Checker</h1>
+            <p>Check HTTP headers of websites (simulated demo).</p>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <input type="text" class="form-control mb-3" id="headersUrl" placeholder="Enter website URL">
+                <div class="text-center mb-3">
+                    <button class="btn btn-primary" onclick="checkHeaders()">Check Headers</button>
+                    <button class="btn btn-outline-danger ms-2" onclick="clearHeaders()">Clear</button>
+                </div>
+                <div id="headersResult" class="alert alert-info text-break" style="display:none;"></div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function checkHeaders() {
+            const url = document.getElementById('headersUrl').value;
+            if (!url) return;
+            // Simulate random headers
+            const headers = [
+                'Content-Type: text/html',
+                'Server: Apache',
+                'X-Powered-By: PHP/7.4',
+                'Cache-Control: no-cache',
+                'Content-Encoding: gzip'
+            ];
+            const shown = headers.slice(0, Math.floor(Math.random()*headers.length)+1).join('\n');
+            document.getElementById('headersResult').style.display = 'block';
+            document.getElementById('headersResult').textContent = `URL: ${url}\n${shown}`;
+        }
+        function clearHeaders() {
+            document.getElementById('headersUrl').value = '';
+            document.getElementById('headersResult').style.display = 'none';
+        }
+    </script>
+</body>
+</html> 

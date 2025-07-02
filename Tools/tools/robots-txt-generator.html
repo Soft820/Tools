@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robots.txt Generator - Multi-Tools Hub</title>
+    <meta name="description" content="Generate robots.txt for your website.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main class="container-fluid py-4">
+        <div class="tool-container">
+            <div class="tool-header">
+                <h1><i class="fas fa-robot me-3"></i>Robots.txt Generator</h1>
+                <p>Generate a robots.txt file for your website easily.</p>
+            </div>
+            <div class="tool-content">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-file-alt me-2"></i>Generate robots.txt</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Allow All</label>
+                                    <input type="checkbox" id="allowAll" checked onchange="toggleAllowAll()">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Disallow Paths (comma separated)</label>
+                                    <input type="text" class="form-control" id="disallowPaths" placeholder="/admin, /private" disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Sitemap URL</label>
+                                    <input type="text" class="form-control" id="sitemapUrl" placeholder="https://example.com/sitemap.xml">
+                                </div>
+                                <div class="text-center mb-3">
+                                    <button class="btn btn-primary" onclick="generateRobots()"><i class="fas fa-magic me-2"></i>Generate</button>
+                                    <button class="btn btn-outline-secondary ms-2" onclick="copyRobots()"><i class="fas fa-copy me-2"></i>Copy</button>
+                                    <button class="btn btn-outline-danger ms-2" onclick="clearRobots()"><i class="fas fa-trash me-2"></i>Clear</button>
+                                </div>
+                                <label class="form-label">Generated robots.txt</label>
+                                <textarea class="form-control" id="robotsOutput" rows="7" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>How to Use</h5>
+                            </div>
+                            <div class="card-body">
+                                <ol>
+                                    <li>Choose allow all or specify disallowed paths</li>
+                                    <li>Optionally add sitemap URL</li>
+                                    <li>Click Generate</li>
+                                    <li>Copy and use the robots.txt</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/tools-data.js"></script>
+    <script>
+        function toggleAllowAll() {
+            document.getElementById('disallowPaths').disabled = document.getElementById('allowAll').checked;
+        }
+        function generateRobots() {
+            const allowAll = document.getElementById('allowAll').checked;
+            const disallow = document.getElementById('disallowPaths').value;
+            const sitemap = document.getElementById('sitemapUrl').value;
+            let robots = 'User-agent: *\n';
+            if (allowAll) {
+                robots += 'Disallow: \n';
+            } else if (disallow.trim()) {
+                disallow.split(',').map(p => p.trim()).forEach(path => {
+                    robots += `Disallow: ${path}\n`;
+                });
+            }
+            if (sitemap) {
+                robots += `Sitemap: ${sitemap}\n`;
+            }
+            document.getElementById('robotsOutput').value = robots.trim();
+        }
+        function copyRobots() {
+            const output = document.getElementById('robotsOutput');
+            if (output.value) {
+                output.select();
+                document.execCommand('copy');
+                showToast('Copied!', 'success');
+            }
+        }
+        function clearRobots() {
+            document.getElementById('allowAll').checked = true;
+            document.getElementById('disallowPaths').value = '';
+            document.getElementById('disallowPaths').disabled = true;
+            document.getElementById('sitemapUrl').value = '';
+            document.getElementById('robotsOutput').value = '';
+        }
+    </script>
+</body>
+</html> 

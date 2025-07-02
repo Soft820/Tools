@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plagiarism Checker - Multi-Tools Hub</title>
+    <meta name="description" content="Check text for plagiarism and duplicate content.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main class="container-fluid py-4">
+        <div class="tool-container">
+            <div class="tool-header">
+                <h1><i class="fas fa-search me-3"></i>Plagiarism Checker</h1>
+                <p>Check your text for duplicate lines and phrases (basic local check).</p>
+            </div>
+            <div class="tool-content">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-search me-2"></i>Check Plagiarism</h5>
+                            </div>
+                            <div class="card-body">
+                                <label class="form-label">Paste Text</label>
+                                <textarea class="form-control mb-3" id="plagiarismInput" rows="7" placeholder="Paste your text here..."></textarea>
+                                <div class="text-center mb-3">
+                                    <button class="btn btn-primary" onclick="checkPlagiarism()"><i class="fas fa-search me-2"></i>Check</button>
+                                    <button class="btn btn-outline-danger ms-2" onclick="clearPlagiarism()"><i class="fas fa-trash me-2"></i>Clear</button>
+                                </div>
+                                <label class="form-label">Result</label>
+                                <div id="plagiarismResult"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>How to Use</h5>
+                            </div>
+                            <div class="card-body">
+                                <ol>
+                                    <li>Paste your text</li>
+                                    <li>Click Check</li>
+                                    <li>View duplicate lines/phrases</li>
+                                </ol>
+                                <p class="text-muted small mt-2">Note: This is a basic local duplicate checker, not a real web plagiarism API.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/tools-data.js"></script>
+    <script>
+        function checkPlagiarism() {
+            const input = document.getElementById('plagiarismInput').value;
+            if (!input.trim()) {
+                showToast('Please enter some text!', 'error');
+                return;
+            }
+            const lines = input.split('\n').map(l => l.trim()).filter(Boolean);
+            const freq = {};
+            lines.forEach(line => freq[line] = (freq[line] || 0) + 1);
+            let result = '<ul class="list-group">';
+            let found = false;
+            Object.keys(freq).forEach(line => {
+                if (freq[line] > 1) {
+                    result += `<li class='list-group-item list-group-item-danger'>Duplicate: ${line} (${freq[line]} times)</li>`;
+                    found = true;
+                }
+            });
+            if (!found) result += '<li class="list-group-item list-group-item-success">No duplicate lines found!</li>';
+            result += '</ul>';
+            document.getElementById('plagiarismResult').innerHTML = result;
+        }
+        function clearPlagiarism() {
+            document.getElementById('plagiarismInput').value = '';
+            document.getElementById('plagiarismResult').innerHTML = '';
+        }
+    </script>
+</body>
+</html> 

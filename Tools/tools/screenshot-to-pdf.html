@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screenshot to PDF Converter - Multi-Tools Hub</title>
+    <meta name="description" content="Convert screenshots to PDF online.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main class="container-fluid py-4">
+        <div class="tool-container">
+            <div class="tool-header">
+                <h1><i class="fas fa-file-pdf me-3"></i>Screenshot to PDF Converter</h1>
+                <p>Convert your screenshots to PDF format instantly.</p>
+            </div>
+            <div class="tool-content">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-image me-2"></i>Convert Screenshot</h5>
+                            </div>
+                            <div class="card-body">
+                                <input type="file" class="form-control mb-3" id="screenshotInput" accept="image/*">
+                                <div class="text-center mb-3">
+                                    <button class="btn btn-primary" onclick="convertToPDF()"><i class="fas fa-file-pdf me-2"></i>Convert to PDF</button>
+                                </div>
+                                <div id="pdfResultSection" style="display: none;">
+                                    <label class="form-label">PDF Download</label>
+                                    <a id="pdfDownloadLink" class="btn btn-success" download="screenshot.pdf"><i class="fas fa-download me-2"></i>Download PDF</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>How to Use</h5>
+                            </div>
+                            <div class="card-body">
+                                <ol>
+                                    <li>Select a screenshot image</li>
+                                    <li>Click Convert to PDF</li>
+                                    <li>Download the PDF</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/tools-data.js"></script>
+    <script>
+        function convertToPDF() {
+            const input = document.getElementById('screenshotInput');
+            if (!input.files.length) {
+                showToast('Please select an image!', 'error');
+                return;
+            }
+            const file = input.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF({ orientation: img.width > img.height ? 'l' : 'p', unit: 'px', format: [img.width, img.height] });
+                    pdf.addImage(img, 'PNG', 0, 0, img.width, img.height);
+                    const pdfBlob = pdf.output('bloburl');
+                    document.getElementById('pdfDownloadLink').href = pdfBlob;
+                    document.getElementById('pdfResultSection').style.display = 'block';
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    </script>
+</body>
+</html> 

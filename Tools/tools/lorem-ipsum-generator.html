@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lorem Ipsum Generator - Multi-Tools Hub</title>
+    <meta name="description" content="Generate Lorem Ipsum placeholder text.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main class="container-fluid py-4">
+        <div class="tool-container">
+            <div class="tool-header">
+                <h1><i class="fas fa-font me-3"></i>Lorem Ipsum Generator</h1>
+                <p>Generate Lorem Ipsum placeholder text for your projects.</p>
+            </div>
+            <div class="tool-content">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-align-left me-2"></i>Generate Lorem Ipsum</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Paragraphs</label>
+                                        <input type="number" class="form-control" id="numParagraphs" value="2" min="1" max="10">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Words per Paragraph</label>
+                                        <input type="number" class="form-control" id="wordsPerParagraph" value="30" min="5" max="100">
+                                    </div>
+                                </div>
+                                <div class="text-center mb-3">
+                                    <button class="btn btn-primary" onclick="generateLorem()"><i class="fas fa-magic me-2"></i>Generate</button>
+                                    <button class="btn btn-outline-secondary ms-2" onclick="copyResult()"><i class="fas fa-copy me-2"></i>Copy</button>
+                                    <button class="btn btn-outline-danger ms-2" onclick="clearAll()"><i class="fas fa-trash me-2"></i>Clear</button>
+                                </div>
+                                <label class="form-label">Output</label>
+                                <textarea class="form-control" id="loremOutput" rows="7" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>How to Use</h5>
+                            </div>
+                            <div class="card-body">
+                                <ol>
+                                    <li>Set number of paragraphs and words</li>
+                                    <li>Click Generate</li>
+                                    <li>Copy or use the output</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/tools-data.js"></script>
+    <script>
+        const loremWords = [
+            'lorem','ipsum','dolor','sit','amet','consectetur','adipiscing','elit','sed','do','eiusmod','tempor','incididunt','ut','labore','et','dolore','magna','aliqua','ut','enim','ad','minim','veniam','quis','nostrud','exercitation','ullamco','laboris','nisi','ut','aliquip','ex','ea','commodo','consequat','duis','aute','irure','dolor','in','reprehenderit','in','voluptate','velit','esse','cillum','dolore','eu','fugiat','nulla','pariatur','excepteur','sint','occaecat','cupidatat','non','proident','sunt','in','culpa','qui','officia','deserunt','mollit','anim','id','est','laborum'
+        ];
+        function generateLorem() {
+            const numParagraphs = parseInt(document.getElementById('numParagraphs').value);
+            const wordsPerParagraph = parseInt(document.getElementById('wordsPerParagraph').value);
+            let output = '';
+            for (let p = 0; p < numParagraphs; p++) {
+                let paragraph = [];
+                for (let w = 0; w < wordsPerParagraph; w++) {
+                    const word = loremWords[Math.floor(Math.random() * loremWords.length)];
+                    paragraph.push(word);
+                }
+                output += paragraph.join(' ') + '.\n\n';
+            }
+            document.getElementById('loremOutput').value = output.trim();
+        }
+        function copyResult() {
+            const output = document.getElementById('loremOutput');
+            if (output.value) {
+                output.select();
+                document.execCommand('copy');
+                showToast('Copied!', 'success');
+            }
+        }
+        function clearAll() {
+            document.getElementById('loremOutput').value = '';
+        }
+    </script>
+</body>
+</html> 

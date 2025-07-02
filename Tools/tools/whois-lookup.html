@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whois Lookup - Multi-Tools Hub</title>
+    <meta name="description" content="Lookup domain registration information.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main class="container py-4">
+        <div class="tool-header mb-4">
+            <h1><i class="fas fa-search me-3"></i>Whois Lookup</h1>
+            <p>Lookup domain registration information (simulated demo).</p>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <input type="text" class="form-control mb-3" id="whoisDomain" placeholder="Enter domain (e.g. example.com)">
+                <div class="text-center mb-3">
+                    <button class="btn btn-primary" onclick="lookupWhois()">Lookup</button>
+                    <button class="btn btn-outline-danger ms-2" onclick="clearWhois()">Clear</button>
+                </div>
+                <div id="whoisResult" class="alert alert-info text-break" style="display:none;"></div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function lookupWhois() {
+            const domain = document.getElementById('whoisDomain').value;
+            if (!domain) return;
+            // Simulate random registrar
+            const registrars = ['GoDaddy', 'Namecheap', 'Google Domains', 'Bluehost', 'HostGator'];
+            const reg = registrars[Math.floor(Math.random()*registrars.length)];
+            document.getElementById('whoisResult').style.display = 'block';
+            document.getElementById('whoisResult').textContent = `Domain: ${domain}\nRegistrar: ${reg}\nStatus: Active`;
+        }
+        function clearWhois() {
+            document.getElementById('whoisDomain').value = '';
+            document.getElementById('whoisResult').style.display = 'none';
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Notepad - Multi-Tools Hub</title>
+    <meta name="description" content="A simple online notepad to take notes.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main class="container-fluid py-4">
+        <div class="tool-container">
+            <div class="tool-header">
+                <h1><i class="fas fa-sticky-note me-3"></i>Online Notepad</h1>
+                <p>A simple online notepad to take and save notes in your browser.</p>
+            </div>
+            <div class="tool-content">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-edit me-2"></i>Notepad</h5>
+                            </div>
+                            <div class="card-body">
+                                <textarea class="form-control mb-3" id="notepad" rows="12" placeholder="Type your notes here..."></textarea>
+                                <div class="text-center mb-3">
+                                    <button class="btn btn-primary" onclick="saveNote()"><i class="fas fa-save me-2"></i>Save</button>
+                                    <button class="btn btn-outline-danger ms-2" onclick="clearNote()"><i class="fas fa-trash me-2"></i>Clear</button>
+                                </div>
+                                <div class="text-center">
+                                    <span class="text-success" id="saveStatus" style="display:none;">Note saved!</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>How to Use</h5>
+                            </div>
+                            <div class="card-body">
+                                <ol>
+                                    <li>Type your notes</li>
+                                    <li>Click Save to store in browser</li>
+                                    <li>Notes are auto-loaded next time</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/tools-data.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (localStorage.getItem('notepadContent')) {
+                document.getElementById('notepad').value = localStorage.getItem('notepadContent');
+            }
+        });
+        function saveNote() {
+            localStorage.setItem('notepadContent', document.getElementById('notepad').value);
+            document.getElementById('saveStatus').style.display = 'inline';
+            setTimeout(() => {
+                document.getElementById('saveStatus').style.display = 'none';
+            }, 1500);
+        }
+        function clearNote() {
+            document.getElementById('notepad').value = '';
+            localStorage.removeItem('notepadContent');
+        }
+    </script>
+</body>
+</html> 

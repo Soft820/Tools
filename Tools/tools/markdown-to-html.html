@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown to HTML Converter - Multi-Tools Hub</title>
+    <meta name="description" content="Convert Markdown to HTML format.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main class="container-fluid py-4">
+        <div class="tool-container">
+            <div class="tool-header">
+                <h1><i class="fab fa-markdown me-3"></i>Markdown to HTML Converter</h1>
+                <p>Convert your Markdown code to HTML format easily.</p>
+            </div>
+            <div class="tool-content">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-code me-2"></i>Convert Markdown to HTML</h5>
+                            </div>
+                            <div class="card-body">
+                                <label class="form-label">Paste Markdown</label>
+                                <textarea class="form-control mb-3" id="mdInput" rows="7" placeholder="Paste your Markdown here..."></textarea>
+                                <div class="text-center mb-3">
+                                    <button class="btn btn-primary" onclick="convertToHTML()"><i class="fas fa-sync me-2"></i>Convert</button>
+                                    <button class="btn btn-outline-secondary ms-2" onclick="copyHTML()"><i class="fas fa-copy me-2"></i>Copy</button>
+                                    <button class="btn btn-outline-danger ms-2" onclick="clearHTML()"><i class="fas fa-trash me-2"></i>Clear</button>
+                                </div>
+                                <label class="form-label">HTML Output</label>
+                                <textarea class="form-control" id="htmlOutput" rows="7" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>How to Use</h5>
+                            </div>
+                            <div class="card-body">
+                                <ol>
+                                    <li>Paste your Markdown code</li>
+                                    <li>Click Convert</li>
+                                    <li>Copy or use the HTML output</li>
+                                </ol>
+                                <p class="text-muted small mt-2">Note: This is a basic converter for common Markdown syntax.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/tools-data.js"></script>
+    <script>
+        function convertToHTML() {
+            let md = document.getElementById('mdInput').value;
+            if (!md.trim()) {
+                showToast('Please enter Markdown!', 'error');
+                return;
+            }
+            // Basic replacements for demonstration
+            let html = md
+                .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+                .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+                .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+                .replace(/\*\*(.*?)\*\*/gim, '<b>$1</b>')
+                .replace(/\*(.*?)\*/gim, '<i>$1</i>')
+                .replace(/\[(.*?)\]\((.*?)\)/gim, '<a href="$2">$1</a>')
+                .replace(/\n$/gim, '<br>');
+            document.getElementById('htmlOutput').value = html.trim();
+        }
+        function copyHTML() {
+            const output = document.getElementById('htmlOutput');
+            if (output.value) {
+                output.select();
+                document.execCommand('copy');
+                showToast('Copied!', 'success');
+            }
+        }
+        function clearHTML() {
+            document.getElementById('mdInput').value = '';
+            document.getElementById('htmlOutput').value = '';
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fancy Text Generator - Multi-Tools Hub</title>
+    <meta name="description" content="Generate fancy text with different fonts.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main class="container-fluid py-4">
+        <div class="tool-container">
+            <div class="tool-header">
+                <h1><i class="fas fa-font me-3"></i>Fancy Text Generator</h1>
+                <p>Generate fancy text with different Unicode font styles.</p>
+            </div>
+            <div class="tool-content">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-magic me-2"></i>Generate Fancy Text</h5>
+                            </div>
+                            <div class="card-body">
+                                <label class="form-label">Input Text</label>
+                                <input type="text" class="form-control mb-3" id="fancyInput" placeholder="Type your text...">
+                                <div class="text-center mb-3">
+                                    <button class="btn btn-primary" onclick="generateFancyText()"><i class="fas fa-magic me-2"></i>Generate</button>
+                                    <button class="btn btn-outline-danger ms-2" onclick="clearFancyText()"><i class="fas fa-trash me-2"></i>Clear</button>
+                                </div>
+                                <label class="form-label">Fancy Text Styles</label>
+                                <div id="fancyResult"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>How to Use</h5>
+                            </div>
+                            <div class="card-body">
+                                <ol>
+                                    <li>Type your text</li>
+                                    <li>Click Generate</li>
+                                    <li>Copy your favorite style</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/tools-data.js"></script>
+    <script>
+        function generateFancyText() {
+            const input = document.getElementById('fancyInput').value;
+            if (!input.trim()) {
+                showToast('Please enter some text!', 'error');
+                return;
+            }
+            const styles = [
+                { name: 'Bold', map: c => String.fromCodePoint((c >= 97 && c <= 122) ? c + 119743 - 97 : (c >= 65 && c <= 90) ? c + 119743 - 65 : c) },
+                { name: 'Italic', map: c => String.fromCodePoint((c >= 97 && c <= 122) ? c + 119795 - 97 : (c >= 65 && c <= 90) ? c + 119795 - 65 : c) },
+                { name: 'Monospace', map: c => String.fromCodePoint((c >= 97 && c <= 122) ? c + 120319 - 97 : (c >= 65 && c <= 90) ? c + 120319 - 65 : c) },
+                { name: 'Double-struck', map: c => String.fromCodePoint((c >= 97 && c <= 122) ? c + 120107 - 97 : (c >= 65 && c <= 90) ? c + 120107 - 65 : c) },
+                { name: 'Sans-serif', map: c => String.fromCodePoint((c >= 97 && c <= 122) ? c + 120363 - 97 : (c >= 65 && c <= 90) ? c + 120363 - 65 : c) },
+            ];
+            let html = '<ul class="list-group">';
+            styles.forEach(style => {
+                let styled = '';
+                for (let i = 0; i < input.length; i++) {
+                    styled += style.map(input.charCodeAt(i));
+                }
+                html += `<li class='list-group-item'><b>${style.name}:</b> <span style='font-size:1.2em;cursor:pointer;' onclick='navigator.clipboard.writeText("${styled}");showToast("Copied!","success")'>${styled}</span></li>`;
+            });
+            html += '</ul>';
+            document.getElementById('fancyResult').innerHTML = html;
+        }
+        function clearFancyText() {
+            document.getElementById('fancyInput').value = '';
+            document.getElementById('fancyResult').innerHTML = '';
+        }
+    </script>
+</body>
+</html> 

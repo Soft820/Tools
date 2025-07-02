@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Storage Converter - Multi-Tools Hub</title>
+    <meta name="description" content="Convert between data storage units.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main class="container-fluid py-4">
+        <div class="tool-container">
+            <div class="tool-header">
+                <h1><i class="fas fa-database me-3"></i>Data Storage Converter</h1>
+                <p>Convert between bytes, kilobytes, megabytes, gigabytes, and terabytes.</p>
+            </div>
+            <div class="tool-content">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-exchange-alt me-2"></i>Convert Data Storage</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Value</label>
+                                        <input type="number" class="form-control" id="dataValue" placeholder="Enter value">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">From Unit</label>
+                                        <select class="form-select" id="fromDataUnit">
+                                            <option value="byte">Byte (B)</option>
+                                            <option value="kilobyte">Kilobyte (KB)</option>
+                                            <option value="megabyte">Megabyte (MB)</option>
+                                            <option value="gigabyte">Gigabyte (GB)</option>
+                                            <option value="terabyte">Terabyte (TB)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">To Unit</label>
+                                    <select class="form-select" id="toDataUnit">
+                                        <option value="byte">Byte (B)</option>
+                                        <option value="kilobyte">Kilobyte (KB)</option>
+                                        <option value="megabyte">Megabyte (MB)</option>
+                                        <option value="gigabyte">Gigabyte (GB)</option>
+                                        <option value="terabyte">Terabyte (TB)</option>
+                                    </select>
+                                </div>
+                                <div class="text-center mb-3">
+                                    <button class="btn btn-primary" onclick="convertData()"><i class="fas fa-exchange-alt me-2"></i>Convert</button>
+                                    <button class="btn btn-outline-danger ms-2" onclick="clearData()"><i class="fas fa-trash me-2"></i>Clear</button>
+                                </div>
+                                <div id="dataResult" class="text-center"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>How to Use</h5>
+                            </div>
+                            <div class="card-body">
+                                <ol>
+                                    <li>Enter value and select units</li>
+                                    <li>Click Convert</li>
+                                    <li>View result</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/tools-data.js"></script>
+    <script>
+        const dataFactors = {
+            byte: 1,
+            kilobyte: 1024,
+            megabyte: 1024 * 1024,
+            gigabyte: 1024 * 1024 * 1024,
+            terabyte: 1024 * 1024 * 1024 * 1024
+        };
+        function convertData() {
+            const value = parseFloat(document.getElementById('dataValue').value);
+            const from = document.getElementById('fromDataUnit').value;
+            const to = document.getElementById('toDataUnit').value;
+            if (!value || !from || !to) {
+                showToast('Please enter all fields!', 'error');
+                return;
+            }
+            const bytes = value * dataFactors[from];
+            const result = bytes / dataFactors[to];
+            document.getElementById('dataResult').innerHTML = `<div class='alert alert-info'><b>Result:</b> ${result} ${to.replace('_', ' ')}</div>`;
+        }
+        function clearData() {
+            document.getElementById('dataValue').value = '';
+            document.getElementById('dataResult').innerHTML = '';
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech-to-Text - Multi-Tools Hub</title>
+    <meta name="description" content="Convert speech to text using voice recognition.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main class="container-fluid py-4">
+        <div class="tool-container">
+            <div class="tool-header">
+                <h1><i class="fas fa-microphone-alt me-3"></i>Speech-to-Text</h1>
+                <p>Convert your speech to text using your microphone.</p>
+            </div>
+            <div class="tool-content">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-microphone me-2"></i>Speech to Text</h5>
+                            </div>
+                            <div class="card-body">
+                                <label class="form-label">Recognized Text</label>
+                                <textarea class="form-control mb-3" id="sttOutput" rows="5" placeholder="Your speech will appear here..."></textarea>
+                                <div class="text-center mb-3">
+                                    <button class="btn btn-primary" onclick="startRecognition()"><i class="fas fa-microphone me-2"></i>Start</button>
+                                    <button class="btn btn-outline-danger ms-2" onclick="stopRecognition()"><i class="fas fa-stop me-2"></i>Stop</button>
+                                </div>
+                                <div id="sttStatus" class="text-center text-muted"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>How to Use</h5>
+                            </div>
+                            <div class="card-body">
+                                <ol>
+                                    <li>Click Start and speak</li>
+                                    <li>Recognized text will appear</li>
+                                    <li>Click Stop to end recognition</li>
+                                </ol>
+                                <p class="text-muted small mt-2">Note: Uses your browser's built-in speech recognition (Web Speech API).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/tools-data.js"></script>
+    <script>
+        let recognition;
+        if ('webkitSpeechRecognition' in window) {
+            recognition = new webkitSpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = 'en-US';
+            recognition.onresult = function(event) {
+                let transcript = '';
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    transcript += event.results[i][0].transcript;
+                }
+                document.getElementById('sttOutput').value = transcript;
+            };
+            recognition.onstart = function() {
+                document.getElementById('sttStatus').textContent = 'Listening...';
+            };
+            recognition.onend = function() {
+                document.getElementById('sttStatus').textContent = 'Stopped.';
+            };
+        } else {
+            document.getElementById('sttStatus').textContent = 'Speech recognition not supported in this browser.';
+        }
+        function startRecognition() {
+            if (recognition) recognition.start();
+        }
+        function stopRecognition() {
+            if (recognition) recognition.stop();
+        }
+    </script>
+</body>
+</html> 

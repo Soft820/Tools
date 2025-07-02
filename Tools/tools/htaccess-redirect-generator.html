@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTACCESS Redirect Generator - Multi-Tools Hub</title>
+    <meta name="description" content="Generate .htaccess redirect rules.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main class="container-fluid py-4">
+        <div class="tool-container">
+            <div class="tool-header">
+                <h1><i class="fas fa-random me-3"></i>HTACCESS Redirect Generator</h1>
+                <p>Generate .htaccess redirect rules for your website.</p>
+            </div>
+            <div class="tool-content">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-random me-2"></i>Generate Redirects</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Redirect Type</label>
+                                    <select class="form-select" id="redirectType">
+                                        <option value="301">301 (Permanent)</option>
+                                        <option value="302">302 (Temporary)</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Old URL</label>
+                                    <input type="text" class="form-control" id="oldUrl" placeholder="/old-page">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">New URL</label>
+                                    <input type="text" class="form-control" id="newUrl" placeholder="/new-page">
+                                </div>
+                                <div class="text-center mb-3">
+                                    <button class="btn btn-primary" onclick="generateRedirect()"><i class="fas fa-magic me-2"></i>Generate</button>
+                                    <button class="btn btn-outline-secondary ms-2" onclick="copyRedirect()"><i class="fas fa-copy me-2"></i>Copy</button>
+                                    <button class="btn btn-outline-danger ms-2" onclick="clearRedirect()"><i class="fas fa-trash me-2"></i>Clear</button>
+                                </div>
+                                <label class="form-label">Generated .htaccess Rule</label>
+                                <textarea class="form-control" id="redirectOutput" rows="4" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>How to Use</h5>
+                            </div>
+                            <div class="card-body">
+                                <ol>
+                                    <li>Select redirect type</li>
+                                    <li>Enter old and new URLs</li>
+                                    <li>Click Generate</li>
+                                    <li>Copy and use the rule in your .htaccess</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/tools-data.js"></script>
+    <script>
+        function generateRedirect() {
+            const type = document.getElementById('redirectType').value;
+            const oldUrl = document.getElementById('oldUrl').value;
+            const newUrl = document.getElementById('newUrl').value;
+            if (!oldUrl.trim() || !newUrl.trim()) {
+                showToast('Please enter both URLs!', 'error');
+                return;
+            }
+            const rule = `Redirect ${type} ${oldUrl} ${newUrl}`;
+            document.getElementById('redirectOutput').value = rule;
+        }
+        function copyRedirect() {
+            const output = document.getElementById('redirectOutput');
+            if (output.value) {
+                output.select();
+                document.execCommand('copy');
+                showToast('Copied!', 'success');
+            }
+        }
+        function clearRedirect() {
+            document.getElementById('oldUrl').value = '';
+            document.getElementById('newUrl').value = '';
+            document.getElementById('redirectOutput').value = '';
+        }
+    </script>
+</body>
+</html> 

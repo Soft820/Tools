@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text-to-Speech - Multi-Tools Hub</title>
+    <meta name="description" content="Convert text to speech with different voices.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main class="container-fluid py-4">
+        <div class="tool-container">
+            <div class="tool-header">
+                <h1><i class="fas fa-volume-up me-3"></i>Text-to-Speech</h1>
+                <p>Convert your text to speech with different voices.</p>
+            </div>
+            <div class="tool-content">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-microphone me-2"></i>Text to Speech</h5>
+                            </div>
+                            <div class="card-body">
+                                <label class="form-label">Enter Text</label>
+                                <textarea class="form-control mb-3" id="ttsInput" rows="5" placeholder="Type text to speak..."></textarea>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Voice</label>
+                                        <select class="form-select" id="ttsVoice"></select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Rate</label>
+                                        <input type="range" class="form-range" id="ttsRate" min="0.5" max="2" step="0.1" value="1">
+                                    </div>
+                                </div>
+                                <div class="text-center mb-3">
+                                    <button class="btn btn-primary" onclick="speakText()"><i class="fas fa-play me-2"></i>Speak</button>
+                                    <button class="btn btn-outline-danger ms-2" onclick="stopSpeech()"><i class="fas fa-stop me-2"></i>Stop</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>How to Use</h5>
+                            </div>
+                            <div class="card-body">
+                                <ol>
+                                    <li>Type or paste text</li>
+                                    <li>Select voice and rate</li>
+                                    <li>Click Speak</li>
+                                </ol>
+                                <p class="text-muted small mt-2">Note: Uses your browser's built-in speech synthesis.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/tools-data.js"></script>
+    <script>
+        let voices = [];
+        function loadVoices() {
+            voices = window.speechSynthesis.getVoices();
+            const select = document.getElementById('ttsVoice');
+            select.innerHTML = '';
+            voices.forEach((voice, i) => {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = `${voice.name} (${voice.lang})`;
+                select.appendChild(option);
+            });
+        }
+        if ('speechSynthesis' in window) {
+            loadVoices();
+            window.speechSynthesis.onvoiceschanged = loadVoices;
+        }
+        function speakText() {
+            const text = document.getElementById('ttsInput').value;
+            const voiceIndex = document.getElementById('ttsVoice').value;
+            const rate = parseFloat(document.getElementById('ttsRate').value);
+            if (!text.trim()) {
+                showToast('Please enter some text!', 'error');
+                return;
+            }
+            const utter = new SpeechSynthesisUtterance(text);
+            utter.voice = voices[voiceIndex];
+            utter.rate = rate;
+            window.speechSynthesis.speak(utter);
+        }
+        function stopSpeech() {
+            window.speechSynthesis.cancel();
+        }
+    </script>
+</body>
+</html> 

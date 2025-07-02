@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Text Generator - Multi-Tools Hub</title>
+    <meta name="description" content="Generate random text for testing purposes.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main class="container-fluid py-4">
+        <div class="tool-container">
+            <div class="tool-header">
+                <h1><i class="fas fa-random me-3"></i>Random Text Generator</h1>
+                <p>Generate random words, sentences, or paragraphs for testing.</p>
+            </div>
+            <div class="tool-content">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-align-left me-2"></i>Generate Random Text</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row mb-3">
+                                    <div class="col-md-4">
+                                        <label class="form-label">Type</label>
+                                        <select class="form-select" id="randomType">
+                                            <option value="word">Word</option>
+                                            <option value="sentence">Sentence</option>
+                                            <option value="paragraph">Paragraph</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Count</label>
+                                        <input type="number" class="form-control" id="randomCount" value="5" min="1" max="100">
+                                    </div>
+                                </div>
+                                <div class="text-center mb-3">
+                                    <button class="btn btn-primary" onclick="generateRandomText()"><i class="fas fa-random me-2"></i>Generate</button>
+                                    <button class="btn btn-outline-danger ms-2" onclick="clearRandomText()"><i class="fas fa-trash me-2"></i>Clear</button>
+                                </div>
+                                <label class="form-label">Output</label>
+                                <textarea class="form-control" id="randomOutput" rows="7" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>How to Use</h5>
+                            </div>
+                            <div class="card-body">
+                                <ol>
+                                    <li>Select type and count</li>
+                                    <li>Click Generate</li>
+                                    <li>Copy or use the output</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/tools-data.js"></script>
+    <script>
+        const words = [
+            'lorem','ipsum','dolor','sit','amet','consectetur','adipiscing','elit','sed','do','eiusmod','tempor','incididunt','ut','labore','et','dolore','magna','aliqua','ut','enim','ad','minim','veniam','quis','nostrud','exercitation','ullamco','laboris','nisi','ut','aliquip','ex','ea','commodo','consequat','duis','aute','irure','dolor','in','reprehenderit','in','voluptate','velit','esse','cillum','dolore','eu','fugiat','nulla','pariatur','excepteur','sint','occaecat','cupidatat','non','proident','sunt','in','culpa','qui','officia','deserunt','mollit','anim','id','est','laborum'
+        ];
+        function randomWord() {
+            return words[Math.floor(Math.random() * words.length)];
+        }
+        function randomSentence() {
+            const len = Math.floor(Math.random() * 8) + 4;
+            let s = '';
+            for (let i = 0; i < len; i++) s += (i ? ' ' : '') + randomWord();
+            return s.charAt(0).toUpperCase() + s.slice(1) + '.';
+        }
+        function randomParagraph() {
+            const len = Math.floor(Math.random() * 4) + 2;
+            let p = '';
+            for (let i = 0; i < len; i++) p += (i ? ' ' : '') + randomSentence();
+            return p;
+        }
+        function generateRandomText() {
+            const type = document.getElementById('randomType').value;
+            const count = parseInt(document.getElementById('randomCount').value);
+            let output = '';
+            for (let i = 0; i < count; i++) {
+                if (type === 'word') output += randomWord() + (i < count-1 ? ' ' : '');
+                if (type === 'sentence') output += randomSentence() + (i < count-1 ? ' ' : '');
+                if (type === 'paragraph') output += randomParagraph() + '\n\n';
+            }
+            document.getElementById('randomOutput').value = output.trim();
+        }
+        function clearRandomText() {
+            document.getElementById('randomOutput').value = '';
+        }
+    </script>
+</body>
+</html> 

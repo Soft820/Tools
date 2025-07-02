@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener - Multi-Tools Hub</title>
+    <meta name="description" content="Shorten long URLs for easy sharing.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main class="container-fluid py-4">
+        <div class="tool-container">
+            <div class="tool-header">
+                <h1><i class="fas fa-link me-3"></i>URL Shortener</h1>
+                <p>Shorten long URLs for easy sharing (simulated).</p>
+            </div>
+            <div class="tool-content">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-link me-2"></i>Shorten URL</h5>
+                            </div>
+                            <div class="card-body">
+                                <input type="text" class="form-control mb-3" id="longUrl" placeholder="Enter long URL">
+                                <div class="text-center mb-3">
+                                    <button class="btn btn-primary" onclick="shortenUrl()"><i class="fas fa-link me-2"></i>Shorten</button>
+                                    <button class="btn btn-outline-danger ms-2" onclick="clearUrl()"><i class="fas fa-trash me-2"></i>Clear</button>
+                                </div>
+                                <div id="shortUrlResult" class="alert alert-info text-break" style="display:none;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>How to Use</h5>
+                            </div>
+                            <div class="card-body">
+                                <ol>
+                                    <li>Enter your long URL</li>
+                                    <li>Click Shorten</li>
+                                    <li>Copy the short URL (simulated)</li>
+                                </ol>
+                                <p class="text-muted small mt-2">Note: This is a local simulation, not a real shortener service.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/tools-data.js"></script>
+    <script>
+        function shortenUrl() {
+            const url = document.getElementById('longUrl').value;
+            if (!url) {
+                showToast('Please enter a URL!', 'error');
+                return;
+            }
+            // Simulate a short URL
+            const hash = Math.random().toString(36).substring(2, 8);
+            const shortUrl = `https://short.ly/${hash}`;
+            document.getElementById('shortUrlResult').style.display = 'block';
+            document.getElementById('shortUrlResult').textContent = shortUrl;
+        }
+        function clearUrl() {
+            document.getElementById('longUrl').value = '';
+            document.getElementById('shortUrlResult').style.display = 'none';
+        }
+    </script>
+</body>
+</html> 
